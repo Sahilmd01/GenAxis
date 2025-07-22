@@ -94,13 +94,19 @@ const Hero = () => {
         <div className="absolute inset-0 opacity-15">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
-                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#fbbf24" strokeWidth="0.8" />
+              <pattern id="hexPattern" width="52" height="60" patternUnits="userSpaceOnUse" patternTransform="scale(1)">
+                <path
+                  d="M26 0 L52 15 L52 45 L26 60 L0 45 L0 15 Z"
+                  fill="none"
+                  stroke="#fbbf24"
+                  strokeWidth="0.6"
+                />
               </pattern>
             </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
+            <rect width="100%" height="100%" fill="url(#hexPattern)" />
           </svg>
         </div>
+
       </div>
 
       <motion.div
