@@ -41,6 +41,7 @@ const Navbar = () => {
   const navButtons = [
     { label: 'About', icon: Sparkles, path: '/about' },
     { label: 'Contact', icon: Sparkles, path: '/contact' },
+    { label: 'Ai Tools', icon: Sparkles, path: '/ai-tolls' },
   ];
 
   const renderNavButton = ({ label, icon: Icon, path }) => (
