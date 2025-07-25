@@ -1,202 +1,118 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Zap, ChevronRight, Gem, Sparkles, Code, Image, PenTool, ShieldCheck, BarChart2, Cpu, Database, Globe, Server, Shield, Layers } from 'lucide-react';
+import { Zap, ChevronRight, Sparkles, Cpu, Database, Globe, Shield } from 'lucide-react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+
+const features = [
+  {
+    name: 'Enterprise AI Solutions',
+    icon: <Cpu className="w-6 h-6 text-emerald-600" />,
+    description: 'Scalable AI infrastructure designed for Fortune 500 performance requirements',
+  },
+  {
+    name: 'Data Intelligence',
+    icon: <Database className="w-6 h-6 text-emerald-600" />,
+    description: 'Real-time analytics and insights from petabytes of structured/unstructured data',
+  },
+  {
+    name: 'Global Deployment',
+    icon: <Globe className="w-6 h-6 text-emerald-600" />,
+    description: 'Multi-region architecture with 99.999% SLA for mission-critical operations',
+  },
+  {
+    name: 'Security Compliance',
+    icon: <Shield className="w-6 h-6 text-emerald-600" />,
+    description: 'End-to-end encryption with SOC 2 Type II, ISO 27001, and GDPR compliance',
+  },
+];
+
+const stats = [
+  { value: '4.9/5', label: 'Customer Satisfaction' },
+  { value: '99.99%', label: 'Uptime SLA' },
+  { value: '256-bit', label: 'Encryption' },
+  { value: '50ms', label: 'Response Time' },
+];
+
+const companies = [
+  'google', 'amazon', 'netflix', 'microsoft', 'tesla', 'nvidia', 'ibm', 'intel',
+].map(name => ({ name, logo: `/logos/${name}.svg` }));
 
 const Hero = () => {
   const navigate = useNavigate();
   const [activeFeature, setActiveFeature] = useState(0);
   const [isHoveringButton, setIsHoveringButton] = useState(false);
-  const cursorRef = useRef(null);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  const rotate = useMotionValue(0);
-  const springConfig = { damping: 30, stiffness: 700 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
-
-  const features = [
-    {
-      name: 'Enterprise AI Solutions',
-      icon: <Cpu className="w-6 h-6 text-amber-400" />,
-      description: 'Scalable AI infrastructure designed for Fortune 500 performance requirements'
-    },
-    {
-      name: 'Data Intelligence',
-      icon: <Database className="w-6 h-6 text-amber-400" />,
-      description: 'Real-time analytics and insights from petabytes of structured/unstructured data'
-    },
-    {
-      name: 'Global Deployment',
-      icon: <Globe className="w-6 h-6 text-amber-400" />,
-      description: 'Multi-region architecture with 99.999% SLA for mission-critical operations'
-    },
-    {
-      name: 'Security Compliance',
-      icon: <Shield className="w-6 h-6 text-amber-400" />,
-      description: 'End-to-end encryption with SOC 2 Type II, ISO 27001, and GDPR compliance'
-    }
-  ];
-
-  const stats = [
-    { value: "4.9/5", label: "Customer Satisfaction" },
-    { value: "99.99%", label: "Uptime SLA" },
-    { value: "256-bit", label: "Encryption" },
-    { value: "50ms", label: "Response Time" }
-  ];
+  const spring = { damping: 25, stiffness: 700 };
+  const cursorXSpring = useSpring(cursorX, spring);
+  const cursorYSpring = useSpring(cursorY, spring);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % features.length);
-    }, 3500);
+    const interval = setInterval(() => setActiveFeature(i => (i + 1) % features.length), 3500);
     return () => clearInterval(interval);
-  }, [features.length]);
+  }, []);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const move = e => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
-      rotate.set((e.clientX + e.clientY) * 0.1);
     };
+    const enter = e => e.target.closest('button, a') && setIsHoveringButton(true);
+    const leave = () => setIsHoveringButton(false);
 
-    const handleMouseEnter = (e) => {
-      if (e.target.closest('button')) {
-        setIsHoveringButton(true);
-      }
-    };
-
-    const handleMouseLeave = () => {
-      setIsHoveringButton(false);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseover', handleMouseEnter);
-    document.addEventListener('mouseout', handleMouseLeave);
-
+    window.addEventListener('mousemove', move);
+    document.addEventListener('mouseover', enter);
+    document.addEventListener('mouseout', leave);
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseover', handleMouseEnter);
-      document.removeEventListener('mouseout', handleMouseLeave);
+      window.removeEventListener('mousemove', move);
+      document.removeEventListener('mouseover', enter);
+      document.removeEventListener('mouseout', leave);
     };
   }, []);
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-gray-950">
-      {/* Enhanced background elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-black to-gray-950 opacity-95"></div>
-      
-      {/* Premium animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute top-[15%] left-[15%] w-96 h-96 rounded-full bg-gradient-to-br from-amber-500/5 to-amber-600/10 blur-[150px]"
-          animate={{ 
-            opacity: [0.2, 0.4, 0.2],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ 
-            duration: 12, 
-            repeat: Infinity, 
-            repeatType: 'reverse', 
-            ease: 'easeInOut' 
-          }}
-        />
+    <div className="relative w-full min-h-screen overflow-hidden bg-white">
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/background.png')" }} />
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 to-violet-50/30 backdrop-blur-[10px] z-0" />
 
-        <motion.div
-          className="absolute bottom-[25%] right-[15%] w-[32rem] h-[32rem] rounded-full bg-gradient-to-br from-amber-600/5 to-amber-700/10 blur-[180px]"
-          animate={{ 
-            opacity: [0.3, 0.5, 0.3],
-            scale: [1, 1.15, 1]
-          }}
-          transition={{ 
-            duration: 14, 
-            repeat: Infinity, 
-            repeatType: 'reverse', 
-            ease: 'easeInOut', 
-            delay: 2 
-          }}
-        />
-
-        {/* Premium geometric pattern */}
-        <div className="absolute inset-0 opacity-20">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="hexPattern" width="80" height="80" patternUnits="userSpaceOnUse" patternTransform="scale(1.5)">
-                <rect width="80" height="80" fill="none" stroke="#f59e0b" strokeWidth="0.3" strokeDasharray="2 2" />
-                <path d="M40 0 L80 20 L80 60 L40 80 L0 60 L0 20 Z" fill="none" stroke="#f59e0b" strokeWidth="0.5" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#hexPattern)" />
-          </svg>
-        </div>
-      </div>
-
-      {/* Your original custom cursor - kept exactly the same */}
+      {/* Cursor */}
       <motion.div
         className="fixed z-50 pointer-events-none"
-        style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
-          translateX: '-50%',
-          translateY: '-50%'
-        }}
-        ref={cursorRef}
-        animate={{
-          scale: isHoveringButton ? 0.8 : 1,
-          opacity: isHoveringButton ? 0.7 : 1
-        }}
-        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+        style={{ x: cursorXSpring, y: cursorYSpring, translateX: '-50%', translateY: '-50%' }}
+        animate={{ scale: isHoveringButton ? 0.7 : 1, opacity: isHoveringButton ? 0.9 : 1 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 400 }}
       >
-        <motion.img
-          src="/cursor.png"
-          alt="Cursor"
-          className="w-12 h-12 object-contain"
-          style={{
-            filter: 'drop-shadow(0 0 8px rgba(245, 158, 11, 0.5))'
-          }}
-        />
+        <img src="/cursor.png" alt="Cursor" className="w-8 h-8 object-contain" style={{ filter: 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.5))' }} />
       </motion.div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 lg:py-40 flex flex-col items-center">
-        {/* Premium badge */}
+        {/* Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="inline-flex items-center gap-3 mb-10 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-900/40 to-amber-800/30 border border-amber-700/60 backdrop-blur-md shadow-lg"
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          className="inline-flex items-center gap-2 mb-10 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-emerald-100 shadow-sm"
         >
-          <div className="flex items-center gap-2">
-            <Gem className="w-6 h-6 text-amber-300" />
-            <span className="text-sm font-medium tracking-widest text-amber-300 uppercase">
-              Enterprise Platinum
-            </span>
+          <div className="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-500 to-violet-600 flex items-center justify-center">
+            <Sparkles className="w-3 h-3 text-white" />
           </div>
-          <div className="ml-2 px-3 py-1 rounded-full bg-amber-900/70 text-xs font-semibold text-amber-200 border border-amber-700/50">
-            EXCLUSIVE ACCESS
-          </div>
+          <span className="text-sm font-medium tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
+            ENTERPRISE AI PLATFORM
+          </span>
+          <div className="ml-2 px-2 py-0.5 rounded-full bg-violet-100 text-xs font-medium text-violet-700">NEW</div>
         </motion.div>
 
-        {/* Main headline */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="text-center mb-12"
-        >
+        {/* Heading */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-center mb-12">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600">
-              Enterprise-Grade
-            </span>
-            <br />
-            <span className="text-gray-100">AI Infrastructure</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-violet-600 to-purple-600">Intelligent AI</span>
+            <br /><span className="text-gray-900">For The Modern Enterprise</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-            The most advanced AI platform for global enterprises, with unmatched performance, 
-            security, and scalability for mission-critical applications.
+          <p className="text-xl text-gray-600 max-w-4xl mx-auto">
+            The most advanced AI platform with unmatched performance, security, and scalability for mission-critical applications.
           </p>
         </motion.div>
 
-        {/* Rotating features */}
+        {/* Feature */}
         <div className="relative h-28 mb-16 w-full max-w-3xl">
           <AnimatePresence mode="wait">
             <motion.div
@@ -207,101 +123,103 @@ const Hero = () => {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="flex items-center gap-4 text-2xl font-semibold text-amber-400">
-                {features[activeFeature].icon}
-                {features[activeFeature].name}
+              <div className="flex items-center gap-3 text-2xl font-semibold">
+                <div className="p-2 rounded-lg bg-gradient-to-r from-emerald-100 to-violet-100 border border-emerald-50">
+                  {features[activeFeature].icon}
+                </div>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">{features[activeFeature].name}</span>
               </div>
-              <p className="mt-4 text-xl text-center text-gray-300 max-w-2xl leading-relaxed">
-                {features[activeFeature].description}
-              </p>
+              <p className="mt-4 text-xl text-center text-gray-600 max-w-2xl leading-relaxed">{features[activeFeature].description}</p>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* Stats grid */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 w-full max-w-4xl"
-        >
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ y: -5 }}
-              className="bg-gray-900/50 border border-gray-800/50 rounded-xl p-6 text-center backdrop-blur-sm"
-            >
-              <div className="text-3xl font-bold text-amber-400 mb-2">{stat.value}</div>
-              <div className="text-sm text-gray-400 uppercase tracking-wider">{stat.label}</div>
+        {/* Stats */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-16 w-full max-w-4xl">
+          {stats.map((s, i) => (
+            <motion.div key={i} whileHover={{ y: -5 }} className="bg-white/90 border border-emerald-100 rounded-xl p-5 text-center backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
+              <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600 mb-2">{s.value}</div>
+              <div className="text-sm text-gray-500 uppercase tracking-wider font-medium">{s.label}</div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* CTA buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="flex flex-wrap justify-center gap-6 mb-20"
-        >
-          <button
-            onClick={() => navigate('/enterprise-contact')}
-            onMouseEnter={() => setIsHoveringButton(true)}
-            onMouseLeave={() => setIsHoveringButton(false)}
-            className="flex items-center gap-4 px-10 py-5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-gray-950 font-semibold hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-300 group relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-400/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <Zap className="w-6 h-6" />
-            <span className="text-lg">Get Started</span>
-            <ChevronRight className="w-6 h-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
-          </button>
-
-          <button
-            onClick={() => navigate('/demo')}
-            onMouseEnter={() => setIsHoveringButton(true)}
-            onMouseLeave={() => setIsHoveringButton(false)}
-            className="flex items-center gap-4 px-10 py-5 rounded-xl bg-gray-900/90 border border-gray-800 text-gray-100 font-semibold hover:bg-gray-800/80 hover:border-amber-500/40 transition-all duration-300 group relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <Sparkles className="w-6 h-6 text-amber-400" />
-            <span className="text-lg">Live Demo</span>
-            <ChevronRight className="w-6 h-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
-          </button>
+        {/* CTA Buttons */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }} className="flex flex-wrap justify-center gap-5 mb-20">
+          {[
+            {
+              label: 'Get Started',
+              icon: <Zap className="w-5 h-5" />,
+              onClick: () => navigate('/enterprise-contact'),
+              className: 'bg-gradient-to-r from-emerald-600 to-violet-600 text-white',
+              overlay: true,
+            },
+            {
+              label: 'Live Demo',
+              icon: <Sparkles className="w-5 h-5 text-violet-500" />,
+              onClick: () => navigate('/demo'),
+              className: 'bg-white/90 border border-emerald-200 text-gray-800',
+              overlay: false,
+            },
+          ].map(({ label, icon, onClick, className, overlay }, i) => (
+            <motion.button
+              key={label}
+              onClick={onClick}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className={`flex items-center gap-3 px-8 py-4 rounded-xl font-semibold group relative overflow-hidden shadow-md hover:shadow-lg transition-all ${className}`}
+            >
+              {overlay && <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/30 to-violet-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />}
+              {icon}
+              <span className="text-lg">{label}</span>
+              <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
+            </motion.button>
+          ))}
         </motion.div>
 
-        {/* Trusted by section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="w-full max-w-6xl"
-        >
-          <p className="text-xs text-gray-500 uppercase tracking-widest mb-8 text-center">
-            Trusted by the world's most innovative enterprises
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-            {[
-              { name: 'JPMORGAN', industry: 'Finance' },
-              { name: 'LOCKHEED', industry: 'Aerospace' },
-              { name: 'SHELL', industry: 'Energy' },
-              { name: 'NVIDIA', industry: 'Technology' },
-              { name: 'SAMSUNG', industry: 'Electronics' }
-            ].map((company, index) => (
-              <motion.div
-                key={company.name}
-                whileHover={{ y: -5 }}
-                className="bg-gray-900/70 border border-gray-800/50 rounded-lg p-4 flex flex-col items-center group cursor-default"
-              >
-                <div className="text-xl font-bold text-gray-400 group-hover:text-amber-400 transition-colors mb-1">
-                  {company.name}
+        {/* Logo Carousel */}
+        <div className="w-full overflow-hidden py-8">
+          <div className="text-center text-sm uppercase tracking-wider text-gray-400 mb-6">Trusted by industry leaders</div>
+          <motion.div className="flex items-center gap-12" animate={{ x: ['0%', '-100%'] }} transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}>
+            {[...companies, ...companies].map((c, i) => (
+              <div key={`${c.name}-${i}`} className="flex-shrink-0">
+                <div className="w-40 h-20 flex items-center justify-center bg-white/90 rounded-lg p-4 shadow-sm border border-emerald-100 hover:shadow-md transition-all">
+                  <img src={c.logo} alt={c.name} className="max-h-12 max-w-full object-contain opacity-80 hover:opacity-100 transition-opacity" />
                 </div>
-                <div className="text-xs text-gray-500 uppercase tracking-wider">
-                  {company.industry}
-                </div>
-              </motion.div>
+              </div>
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Floating Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => {
+          const size = Math.random() * 10 + 5;
+          return (
+            <motion.div
+              key={i}
+              className="absolute rounded-full bg-emerald-200/30"
+              initial={{
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+                width: size,
+                height: size,
+                opacity: Math.random() * 0.5 + 0.1,
+              }}
+              animate={{
+                y: [0, Math.random() * 100 - 50],
+                x: [0, Math.random() * 100 - 50],
+                transition: {
+                  duration: Math.random() * 10 + 10,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
+                  ease: 'easeInOut',
+                },
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );
