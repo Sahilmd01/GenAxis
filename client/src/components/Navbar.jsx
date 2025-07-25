@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, Sparkles, Menu, X, Zap, Database, Globe, Shield, Info, Phone, Contact } from 'lucide-react';
+import { ChevronRight, Sparkles, Menu, X, Globe, Info, Contact } from 'lucide-react';
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,6 +15,28 @@ const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(window.scrollY);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileDropdownOpen, setMobileDropdownOpen] = useState({
+    product: false,
+    resources: false,
+    company: false,
+    legal: false
+  });
+  const [closingDropdown, setClosingDropdown] = useState(null);
+  const [hoveredDropdown, setHoveredDropdown] = useState(null);
+  const [dropdownTimeout, setDropdownTimeout] = useState(null);
+
+  useEffect(() => {
+    if (closingDropdown) {
+      const timer = setTimeout(() => {
+        setMobileDropdownOpen(prev => ({
+          ...prev,
+          [closingDropdown]: false
+        }));
+        setClosingDropdown(null);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [closingDropdown]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,7 +49,15 @@ const Navbar = () => {
     const handleResize = () => {
       const isNowMobile = window.innerWidth < 768;
       setIsMobile(isNowMobile);
-      if (!isNowMobile) setMobileMenuOpen(false);
+      if (!isNowMobile) {
+        setMobileMenuOpen(false);
+        setMobileDropdownOpen({
+          product: false,
+          resources: false,
+          company: false,
+          legal: false
+        });
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -39,11 +69,34 @@ const Navbar = () => {
   }, [lastScrollY]);
 
   const navButtons = [
+    { label: 'Home', icon: Globe, path: '/' },
     { label: 'About', icon: Info, path: '/about' },
     { label: 'Contact us', icon: Contact, path: '/contact' },
-    // { label: 'Global Network', icon: Globe, path: '/' },
-    // { label: 'Security', icon: Shield, path: '/' },
   ];
+
+  const dropdownItems = {
+    product: [
+      { label: 'Features', path: '/features' },
+      { label: 'Solutions', path: '/solutions' },
+      { label: 'Pricing', path: '/pricing' },
+      { label: 'Demo', path: '/demo' },
+    ],
+    resources: [
+      { label: 'Documentation', path: '/docs' },
+      { label: 'API Reference', path: '/api' },
+      { label: 'Blog', path: '/blog' },
+    ],
+    company: [
+      { label: 'About', path: '/about' },
+      { label: 'Careers', path: '/careers' },
+      { label: 'Contact', path: '/contact' },
+    ],
+    legal: [
+      { label: 'Privacy', path: '/privacy' },
+      { label: 'Terms', path: '/terms' },
+      { label: 'Security', path: '/security' },
+    ]
+  };
 
   const renderNavButton = ({ label, icon: Icon, path }) => (
     <motion.button
@@ -61,6 +114,126 @@ const Navbar = () => {
     </motion.button>
   );
 
+  const handleMobileDropdownToggle = (dropdownKey) => {
+    if (mobileDropdownOpen[dropdownKey]) {
+      setClosingDropdown(dropdownKey);
+    } else {
+      setMobileDropdownOpen(prev => ({
+        ...prev,
+        [dropdownKey]: true
+      }));
+    }
+  };
+
+  const handleDropdownMouseEnter = (dropdownKey) => {
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout);
+      setDropdownTimeout(null);
+    }
+    setHoveredDropdown(dropdownKey);
+  };
+
+  const handleDropdownMouseLeave = (dropdownKey) => {
+    const timeout = setTimeout(() => {
+      setHoveredDropdown(null);
+    }, 500); // 500ms delay before closing
+    setDropdownTimeout(timeout);
+  };
+
+  const renderDropdownButton = ({ label, items, dropdownKey }) => (
+    <div 
+      className="relative group"
+      onMouseEnter={() => !isMobile && handleDropdownMouseEnter(dropdownKey)}
+      onMouseLeave={() => !isMobile && handleDropdownMouseLeave(dropdownKey)}
+    >
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="relative overflow-hidden group px-5 py-2.5 rounded-xl"
+        onClick={() => isMobile && handleMobileDropdownToggle(dropdownKey)}
+      >
+        <span className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-violet-500/10 to-transparent rounded-xl opacity-70 group-hover:opacity-100 transition-all duration-300" />
+        <span className="absolute inset-0.5 bg-gradient-to-r from-emerald-500/5 via-violet-500/5 to-transparent rounded-xl border border-emerald-400/30 group-hover:border-emerald-400/50 transition-all duration-300" />
+        <span className="relative z-10 flex items-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-violet-600 to-purple-600 text-sm font-medium">
+          {label}
+          <ChevronRight className={`w-4 h-4 ml-1 text-violet-500 transition-transform ${
+            isMobile && mobileDropdownOpen[dropdownKey] ? 'rotate-90' : 'group-hover:translate-x-1'
+          }`} />
+        </span>
+      </motion.button>
+
+      {!isMobile && (
+        <AnimatePresence>
+          {(hoveredDropdown === dropdownKey) && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-full left-0 mt-2 w-56 bg-white border border-emerald-100 rounded-xl shadow-xl p-2 z-50"
+              onMouseEnter={() => handleDropdownMouseEnter(dropdownKey)}
+              onMouseLeave={() => handleDropdownMouseLeave(dropdownKey)}
+            >
+              {items.map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => navigate(item.path)}
+                  className="w-full text-left px-4 py-2.5 text-sm text-emerald-800 hover:bg-emerald-50 rounded-lg transition"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
+    </div>
+  );
+
+  const renderMobileDropdown = ({ label, items, dropdownKey }) => (
+    <div className="space-y-1">
+      <button
+        onClick={() => handleMobileDropdownToggle(dropdownKey)}
+        className="w-full flex items-center justify-between px-5 py-3.5 rounded-xl bg-gradient-to-r from-emerald-50 via-violet-50 to-transparent border border-emerald-100 hover:border-emerald-200 transition-all"
+      >
+        <span className="text-emerald-800 font-medium">{label}</span>
+        <ChevronRight className={`w-4 h-4 text-emerald-500 transition-transform ${
+          mobileDropdownOpen[dropdownKey] ? 'rotate-90' : ''
+        }`} />
+      </button>
+
+      <AnimatePresence>
+        {(mobileDropdownOpen[dropdownKey] || closingDropdown === dropdownKey) && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{
+              height: mobileDropdownOpen[dropdownKey] ? 'auto' : 0,
+              opacity: mobileDropdownOpen[dropdownKey] ? 1 : 0
+            }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden pl-4 space-y-1"
+          >
+            {items.map((item) => (
+              <motion.button
+                key={item.label}
+                whileHover={{ x: 5 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  navigate(item.path);
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full text-left px-4 py-2.5 text-sm text-emerald-700 hover:bg-emerald-50 rounded-lg transition"
+              >
+                {item.label}
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+
   return (
     <>
       <motion.div
@@ -72,7 +245,6 @@ const Navbar = () => {
         } backdrop-blur-3xl transition-all duration-300`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-          {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -81,18 +253,20 @@ const Navbar = () => {
           >
             <img src={assets.logo} alt="logo" className="h-10 sm:h-12 w-auto" />
             <span className="ml-3 text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600 hidden sm:block">
-              GenAxis 
+              GenAxis
             </span>
           </motion.div>
 
-          {/* Desktop Nav */}
           {!isMobile && (
             <div className="flex items-center space-x-2">
               {navButtons.map(renderNavButton)}
+              {renderDropdownButton({ label: 'Product', items: dropdownItems.product, dropdownKey: 'product' })}
+              {renderDropdownButton({ label: 'Resources', items: dropdownItems.resources, dropdownKey: 'resources' })}
+              {renderDropdownButton({ label: 'Company', items: dropdownItems.company, dropdownKey: 'company' })}
+              {renderDropdownButton({ label: 'Legal', items: dropdownItems.legal, dropdownKey: 'legal' })}
             </div>
           )}
 
-          {/* User Area */}
           <div className="flex items-center space-x-3 sm:space-x-4">
             {user ? (
               <UserButton
@@ -138,7 +312,6 @@ const Navbar = () => {
         </div>
       </motion.div>
 
-      {/* Mobile Sidebar */}
       <AnimatePresence>
         {isMobile && mobileMenuOpen && (
           <>
@@ -172,8 +345,8 @@ const Navbar = () => {
                     GenAxis
                   </span>
                 </motion.div>
-                <button 
-                  onClick={() => setMobileMenuOpen(false)} 
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
                   className="p-1.5 rounded-xl hover:bg-emerald-100 transition"
                 >
                   <X className="w-5 h-5 text-emerald-600" />
@@ -199,6 +372,11 @@ const Navbar = () => {
                     <ChevronRight className="w-4 h-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </motion.button>
                 ))}
+
+                {renderMobileDropdown({ label: 'Product', items: dropdownItems.product, dropdownKey: 'product' })}
+                {renderMobileDropdown({ label: 'Resources', items: dropdownItems.resources, dropdownKey: 'resources' })}
+                {renderMobileDropdown({ label: 'Company', items: dropdownItems.company, dropdownKey: 'company' })}
+                {renderMobileDropdown({ label: 'Legal', items: dropdownItems.legal, dropdownKey: 'legal' })}
               </div>
 
               <div className="p-6 border-t border-emerald-100">

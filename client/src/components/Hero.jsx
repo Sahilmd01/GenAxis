@@ -7,32 +7,32 @@ const features = [
   {
     name: 'AI Image Generation',
     icon: <Cpu className="w-6 h-6 text-emerald-600" />,
-    description: 'Scalable AI infrastructure designed for Fortune 500 performance requirements',
+    description: 'Generate high-quality, realistic images from text prompts using advanced AI models.',
   },
   {
     name: 'AI Background Remover',
     icon: <Database className="w-6 h-6 text-emerald-600" />,
-    description: 'Real-time analytics and insights from petabytes of structured/unstructured data',
+    description: 'Automatically remove image backgrounds with precision using deep learning techniques.',
   },
   {
     name: 'AI Object Remover',
     icon: <Globe className="w-6 h-6 text-emerald-600" />,
-    description: 'Multi-region architecture with 99.999% SLA for mission-critical operations',
+    description: 'Easily erase unwanted objects from images while maintaining natural visual flow.',
   },
   {
-    name: 'AI AI Background Remover',
+    name: 'AI Background Enhancer',
     icon: <Shield className="w-6 h-6 text-emerald-600" />,
-    description: 'End-to-end encryption with SOC 2 Type II, ISO 27001, and GDPR compliance',
+    description: 'Replace or enhance image backgrounds with smart AI suggestions and seamless blending.',
   },
-    {
+  {
     name: 'AI Resume Reviewer',
     icon: <Shield className="w-6 h-6 text-emerald-600" />,
-    description: 'End-to-end encryption with SOC 2 Type II, ISO 27001, and GDPR compliance',
+    description: 'Analyze and improve resumes with AI-driven feedback for formatting, clarity, and impact.',
   },
-    {
+  {
     name: 'AI Article Writer',
     icon: <Shield className="w-6 h-6 text-emerald-600" />,
-    description: 'End-to-end encryption with SOC 2 Type II, ISO 27001, and GDPR compliance',
+    description: 'Automatically generate engaging and SEO-friendly articles from simple topic prompts.',
   },
 ];
 
