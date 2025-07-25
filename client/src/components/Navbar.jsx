@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, Sparkles, Menu, X } from 'lucide-react';
+import { ChevronRight, Sparkles, Menu, X, Zap, Database, Globe, Shield, Info, Phone, Contact } from 'lucide-react';
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -39,21 +39,23 @@ const Navbar = () => {
   }, [lastScrollY]);
 
   const navButtons = [
-    { label: 'About', icon: Sparkles, path: '/about' },
-    { label: 'Contact', icon: Sparkles, path: '/contact' },
+    { label: 'About', icon: Info, path: '/about' },
+    { label: 'Contact us', icon: Contact, path: '/contact' },
+    // { label: 'Global Network', icon: Globe, path: '/' },
+    // { label: 'Security', icon: Shield, path: '/' },
   ];
 
   const renderNavButton = ({ label, icon: Icon, path }) => (
     <motion.button
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="relative overflow-hidden group px-4 py-2 rounded-full"
+      className="relative overflow-hidden group px-5 py-2.5 rounded-xl"
       onClick={() => navigate(path)}
     >
-      <span className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-transparent rounded-full opacity-70 group-hover:opacity-100 transition-all duration-300" />
-      <span className="absolute inset-0.5 bg-gradient-to-r from-blue-500/5 via-indigo-500/5 to-transparent rounded-full border border-blue-400/30 group-hover:border-blue-400/50 transition-all duration-300" />
-      <span className="relative z-10 flex items-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-sm font-medium">
-        <Icon className="w-4 h-4 mr-2 text-indigo-500" />
+      <span className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-violet-500/10 to-transparent rounded-xl opacity-70 group-hover:opacity-100 transition-all duration-300" />
+      <span className="absolute inset-0.5 bg-gradient-to-r from-emerald-500/5 via-violet-500/5 to-transparent rounded-xl border border-emerald-400/30 group-hover:border-emerald-400/50 transition-all duration-300" />
+      <span className="relative z-10 flex items-center text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-violet-600 to-purple-600 text-sm font-medium">
+        <Icon className="w-4 h-4 mr-2 text-violet-500" />
         {label}
       </span>
     </motion.button>
@@ -66,8 +68,8 @@ const Navbar = () => {
         animate={{ y: showNavbar ? 0 : -100 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         className={`fixed z-50 w-full ${
-          scrolled ? 'bg-white/95 border-b border-indigo-100' : 'bg-white/90'
-        } backdrop-blur-3xl transition-all duration-300 shadow-sm`}
+          scrolled ? 'bg-white/95 border-b border-emerald-100 shadow-sm' : 'bg-white/90'
+        } backdrop-blur-3xl transition-all duration-300`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
           {/* Logo */}
@@ -78,50 +80,56 @@ const Navbar = () => {
             onClick={() => navigate('/')}
           >
             <img src={assets.logo} alt="logo" className="h-10 sm:h-12 w-auto" />
+            <span className="ml-3 text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600 hidden sm:block">
+              GenAxis 
+            </span>
           </motion.div>
 
           {/* Desktop Nav */}
           {!isMobile && (
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               {navButtons.map(renderNavButton)}
             </div>
           )}
 
           {/* User Area */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          <div className="flex items-center space-x-3 sm:space-x-4">
             {user ? (
               <UserButton
                 appearance={{
                   elements: {
-                    userButtonAvatarBox: 'w-8 h-8 sm:w-10 sm:h-10 border border-indigo-200 shadow-lg shadow-indigo-100',
-                    userButtonPopoverCard: 'bg-white border border-indigo-100 shadow-xl',
+                    userButtonAvatarBox: 'w-9 h-9 sm:w-10 sm:h-10 border border-emerald-200 shadow-lg shadow-emerald-100/50',
+                    userButtonPopoverCard: 'bg-white border border-emerald-100 shadow-xl',
+                    userButtonPopoverActionButton: 'hover:bg-emerald-50',
                   },
                 }}
               />
             ) : (
               <motion.button
                 onClick={openSignIn}
-                className="flex items-center gap-1 sm:gap-2 rounded-full font-medium cursor-pointer bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm hover:shadow-lg hover:shadow-blue-500/30 transition-all group"
+                className="flex items-center gap-2 rounded-xl font-medium cursor-pointer bg-gradient-to-r from-emerald-600 to-violet-600 text-white px-5 py-2.5 text-sm hover:shadow-lg hover:shadow-emerald-500/30 transition-all group relative overflow-hidden"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
+                <span className="absolute inset-0 bg-gradient-to-r from-emerald-500/30 via-violet-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Sparkles className="w-4 h-4" />
                 <span>{isMobile ? 'Start' : 'Get Started'}</span>
-                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-all" />
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-all" />
               </motion.button>
             )}
             {isMobile && (
               <motion.button
-                className="relative p-2 rounded-md focus:outline-none group"
+                className="relative p-2 rounded-xl focus:outline-none group"
                 onClick={() => setMobileMenuOpen((prev) => !prev)}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <div className="absolute inset-0 bg-indigo-500/10 rounded-md opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-emerald-500/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="relative z-10">
                   {mobileMenuOpen ? (
-                    <X className="w-6 h-6 text-indigo-600" />
+                    <X className="w-6 h-6 text-emerald-600" />
                   ) : (
-                    <Menu className="w-6 h-6 text-indigo-600" />
+                    <Menu className="w-6 h-6 text-emerald-600" />
                   )}
                 </div>
               </motion.button>
@@ -147,9 +155,9 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="fixed top-0 left-0 w-72 h-full bg-gradient-to-b from-white to-indigo-50 z-40 border-r border-indigo-100 shadow-2xl shadow-indigo-100 flex flex-col"
+              className="fixed top-0 left-0 w-80 h-full bg-gradient-to-b from-white to-emerald-50 z-40 border-r border-emerald-100 shadow-2xl shadow-emerald-100/50 flex flex-col"
             >
-              <div className="p-6 border-b border-indigo-100 flex justify-between items-center">
+              <div className="p-6 border-b border-emerald-100 flex justify-between items-center">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -160,13 +168,19 @@ const Navbar = () => {
                   }}
                 >
                   <img src={assets.logo} alt="logo" className="h-10 w-auto" />
+                  <span className="ml-3 text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
+                    GenAxis
+                  </span>
                 </motion.div>
-                <button onClick={() => setMobileMenuOpen(false)} className="p-1 rounded-full hover:bg-indigo-100 transition">
-                  <X className="w-5 h-5 text-indigo-600" />
+                <button 
+                  onClick={() => setMobileMenuOpen(false)} 
+                  className="p-1.5 rounded-xl hover:bg-emerald-100 transition"
+                >
+                  <X className="w-5 h-5 text-emerald-600" />
                 </button>
               </div>
 
-              <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+              <div className="flex-1 p-6 space-y-4 overflow-y-auto">
                 {navButtons.map(({ label, icon, path }) => (
                   <motion.button
                     key={label}
@@ -176,28 +190,30 @@ const Navbar = () => {
                       navigate(path);
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-gradient-to-r from-blue-50 via-indigo-50 to-transparent border border-indigo-100 hover:border-indigo-200 transition-all group"
+                    className="w-full flex items-center justify-between px-5 py-3.5 rounded-xl bg-gradient-to-r from-emerald-50 via-violet-50 to-transparent border border-emerald-100 hover:border-emerald-200 transition-all group"
                   >
                     <div className="flex items-center">
-                      {React.createElement(icon, { className: 'w-4 h-4 mr-3 text-indigo-500' })}
-                      <span className="text-indigo-800 font-medium">{label}</span>
+                      {React.createElement(icon, { className: 'w-4 h-4 mr-3 text-emerald-500' })}
+                      <span className="text-emerald-800 font-medium">{label}</span>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <ChevronRight className="w-4 h-4 text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </motion.button>
                 ))}
               </div>
 
-              <div className="p-6 border-t border-indigo-100">
+              <div className="p-6 border-t border-emerald-100">
                 {!user ? (
                   <motion.button
                     onClick={() => {
                       openSignIn();
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full flex items-center justify-center gap-2 rounded-full font-medium cursor-pointer bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 text-sm hover:shadow-lg hover:shadow-blue-500/30 transition-all group"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl font-medium cursor-pointer bg-gradient-to-r from-emerald-600 to-violet-600 text-white px-6 py-3.5 text-sm hover:shadow-lg hover:shadow-emerald-500/30 transition-all group relative overflow-hidden"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
+                    <span className="absolute inset-0 bg-gradient-to-r from-emerald-500/30 via-violet-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <Sparkles className="w-4 h-4" />
                     <span>Get Started</span>
                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-all" />
                   </motion.button>
@@ -206,8 +222,8 @@ const Navbar = () => {
                     <UserButton
                       appearance={{
                         elements: {
-                          userButtonAvatarBox: 'w-10 h-10 border border-indigo-200 shadow-lg shadow-indigo-100',
-                          userButtonPopoverCard: 'bg-white border border-indigo-100 shadow-xl',
+                          userButtonAvatarBox: 'w-10 h-10 border border-emerald-200 shadow-lg shadow-emerald-100/50',
+                          userButtonPopoverCard: 'bg-white border border-emerald-100 shadow-xl',
                         },
                       }}
                     />

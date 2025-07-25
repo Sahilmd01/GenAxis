@@ -5,22 +5,32 @@ import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motio
 
 const features = [
   {
-    name: 'Enterprise AI Solutions',
+    name: 'AI Image Generation',
     icon: <Cpu className="w-6 h-6 text-emerald-600" />,
     description: 'Scalable AI infrastructure designed for Fortune 500 performance requirements',
   },
   {
-    name: 'Data Intelligence',
+    name: 'AI Background Remover',
     icon: <Database className="w-6 h-6 text-emerald-600" />,
     description: 'Real-time analytics and insights from petabytes of structured/unstructured data',
   },
   {
-    name: 'Global Deployment',
+    name: 'AI Object Remover',
     icon: <Globe className="w-6 h-6 text-emerald-600" />,
     description: 'Multi-region architecture with 99.999% SLA for mission-critical operations',
   },
   {
-    name: 'Security Compliance',
+    name: 'AI AI Background Remover',
+    icon: <Shield className="w-6 h-6 text-emerald-600" />,
+    description: 'End-to-end encryption with SOC 2 Type II, ISO 27001, and GDPR compliance',
+  },
+    {
+    name: 'AI Resume Reviewer',
+    icon: <Shield className="w-6 h-6 text-emerald-600" />,
+    description: 'End-to-end encryption with SOC 2 Type II, ISO 27001, and GDPR compliance',
+  },
+    {
+    name: 'AI Article Writer',
     icon: <Shield className="w-6 h-6 text-emerald-600" />,
     description: 'End-to-end encryption with SOC 2 Type II, ISO 27001, and GDPR compliance',
   },
@@ -96,7 +106,7 @@ const Hero = () => {
             <Sparkles className="w-3 h-3 text-white" />
           </div>
           <span className="text-sm font-medium tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
-            ENTERPRISE AI PLATFORM
+            WELCOME TO GENAXIS AI PLATFORM
           </span>
           <div className="ml-2 px-2 py-0.5 rounded-full bg-violet-100 text-xs font-medium text-violet-700">NEW</div>
         </motion.div>
