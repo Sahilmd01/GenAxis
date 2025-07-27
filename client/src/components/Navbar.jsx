@@ -97,7 +97,7 @@ const dropdownItems = {
   ],
   legal: [
     { label: 'Privacy', path: '/legal/privacy' },
-    { label: 'Terms', path: '/legal/tearms' },       // This matches your filename, but ideally rename to "terms"
+    { label: 'Terms', path: '/legal/terms' },       // This matches your filename, but ideally rename to "terms"
     { label: 'Security', path: '/legal/security' },
   ]
 };
