@@ -16,6 +16,7 @@
     "framer-motion": "^12.23.6",
     "lodash.throttle": "^4.1.1",
     "lucide-react": "^0.525.0",
+    "prism-react-renderer": "^2.4.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hot-toast": "^2.5.2",
