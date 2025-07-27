@@ -12,17 +12,21 @@ import Community from './pages/Community';
 import About from './pages/About';
 import Contact from './pages/Contact';
 
-import Carrers from './pages/company/Carrers';
+// Correct spelling: Careers
+import Careers from './pages/company/Careers';
 
+// Correct spelling: Terms
 import Privacy from './pages/legal/Privacy';
 import Security from './pages/legal/Security';
-import Tearms from './pages/legal/Tearms';
+import Terms from './pages/legal/Terms';
 
+// Product pages
 import Demo from './pages/product/Demo';
 import Feature from './pages/product/Feature';
 import Pricing from './pages/product/Pricing';
 import Solution from './pages/product/Solution';
 
+// Resources pages
 import Api from './pages/resources/Api';
 import Blog from './pages/resources/Blog';
 import Documentation from './pages/resources/Documentation';
@@ -34,6 +38,7 @@ const App = () => {
     <div>
       <Toaster />
       <Routes>
+        {/* Main Route */}
         <Route path="/" element={<Home />} />
 
         {/* AI Tools under /ai layout */}
@@ -48,25 +53,25 @@ const App = () => {
           <Route path="community" element={<Community />} />
         </Route>
 
-        {/* Static Routes */}
+        {/* Static Pages */}
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* Company */}
-        <Route path="/company/carrers" element={<Carrers />} />
+        {/* Company Pages */}
+        <Route path="/company/careers" element={<Careers />} />
 
-        {/* Legal */}
+        {/* Legal Pages */}
         <Route path="/legal/privacy" element={<Privacy />} />
         <Route path="/legal/security" element={<Security />} />
-        <Route path="/legal/tearms" element={<Tearms />} />
+        <Route path="/legal/terms" element={<Terms />} />
 
-        {/* Product */}
+        {/* Product Pages */}
         <Route path="/product/demo" element={<Demo />} />
         <Route path="/product/feature" element={<Feature />} />
         <Route path="/product/pricing" element={<Pricing />} />
         <Route path="/product/solution" element={<Solution />} />
 
-        {/* Resources */}
+        {/* Resources Pages */}
         <Route path="/resources/api" element={<Api />} />
         <Route path="/resources/blog" element={<Blog />} />
         <Route path="/resources/documentation" element={<Documentation />} />

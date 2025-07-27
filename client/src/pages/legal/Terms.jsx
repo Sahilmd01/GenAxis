@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Carrersr = () => {
+const Terms = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const Carrersr = () => {
   )
 }
 
-export default Carrersr
+export default Terms

@@ -78,29 +78,30 @@ const Navbar = () => {
   ];
 
   // Dropdown items
-  const dropdownItems = {
-    product: [
-      { label: 'Features', path: '/features' },
-      { label: 'Solutions', path: '/solutions' },
-      { label: 'Pricing', path: '/pricing' },
-      { label: 'Demo', path: '/demo' },
-    ],
-    resources: [
-      { label: 'Documentation', path: '/docs' },
-      { label: 'API Reference', path: '/api' },
-      { label: 'Blog', path: '/blog' },
-    ],
-    company: [
-      { label: 'About', path: '/about' },
-      { label: 'Careers', path: '/careers' },
-      { label: 'Contact', path: '/contact' },
-    ],
-    legal: [
-      { label: 'Privacy', path: '/privacy' },
-      { label: 'Terms', path: '/terms' },
-      { label: 'Security', path: '/security' },
-    ]
-  };
+const dropdownItems = {
+  product: [
+    { label: 'Features', path: '/product/feature' },
+    { label: 'Solutions', path: '/product/solution' },
+    { label: 'Pricing', path: '/product/pricing' },
+    { label: 'Demo', path: '/product/demo' },
+  ],
+  resources: [
+    { label: 'Documentation', path: '/resources/documentation' },
+    { label: 'API Reference', path: '/resources/api' },
+    { label: 'Blog', path: '/resources/blog' },
+  ],
+  company: [
+    { label: 'About', path: '/about' },
+    { label: 'Careers', path: '/company/careers' },  // Fixed spelling and path
+    { label: 'Contact', path: '/contact' },
+  ],
+  legal: [
+    { label: 'Privacy', path: '/legal/privacy' },
+    { label: 'Terms', path: '/legal/tearms' },       // This matches your filename, but ideally rename to "terms"
+    { label: 'Security', path: '/legal/security' },
+  ]
+};
+
 
   // Render navigation button
   const renderNavButton = ({ label, icon: Icon, path }) => (
