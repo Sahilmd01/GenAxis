@@ -44,8 +44,8 @@ const stats = [
 ];
 
 const companies = [
-  'google', 'amazon', 'netflix', 'microsoft', 'tesla', 'nvidia', 'ibm', 'intel',
-].map(name => ({ name, logo: `/logos/${name}.svg` }));
+  'google', 'amazon', 'netflix', 'microsoft', 'samsung', 'instagram', 'ibm', 'apple','threads',
+].map(name => ({ name, logo: `/compny_logos/${name}.png` }));
 
 const Hero = () => {
   const navigate = useNavigate();
