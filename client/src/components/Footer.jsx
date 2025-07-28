@@ -188,11 +188,23 @@ const Footer = () => {
 
           {/* Bottom Bar */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-emerald-100">
-            <div className="flex items-center gap-2">
-              <Zap className="w-6 h-6 text-emerald-600" />
-              <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
-                GenAxis
-              </span>
+            <div className="flex items-center gap-4">
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="w-20 h-20 relative"
+              >
+                <img 
+                  src="/logo.png" 
+                  alt="Company Logo" 
+                  className="w-full h-full object-contain"
+                />
+              </motion.div>
+              <div>
+            <span className="ml-2 sm:ml-3 text-lg sm:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
+              GenAxis
+            </span>
+                <span className="text-xs text-gray-500 block">Premium AI Solutions</span>
+              </div>
             </div>
             <p className="text-sm text-gray-500">
               © {new Date().getFullYear()} GenAxis AI Platform. All rights reserved.
