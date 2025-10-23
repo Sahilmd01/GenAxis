@@ -1,235 +1,371 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Zap, ChevronRight, Sparkles, Cpu, Database, Globe, Shield } from 'lucide-react';
+import { 
+  ChevronRight, Sparkles, Cpu, Database, Globe, Shield, 
+  BookOpen, FileText, Play, ArrowRight, Star, Award, Clock, 
+  Lock, Users, Brain, Cloud, BarChart, CheckCircle, ArrowUpRight,
+  Eye, Code, Palette, MessageCircle, BarChart3, Settings, Zap,
+  Crown, Gem, Target, Rocket, Shield as ShieldIcon, Zap as ZapIcon,
+  Grid, Circle, Square, Sun
+} from 'lucide-react';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 
-const features = [
-  {
-    name: 'AI Image Generation',
-    icon: <Cpu className="w-6 h-6 text-emerald-600" />,
-    description: 'Generate high-quality, realistic images from text prompts using advanced AI models.',
-  },
-  {
-    name: 'AI Background Remover',
-    icon: <Database className="w-6 h-6 text-emerald-600" />,
-    description: 'Automatically remove image backgrounds with precision using deep learning techniques.',
-  },
-  {
-    name: 'AI Object Remover',
-    icon: <Globe className="w-6 h-6 text-emerald-600" />,
-    description: 'Easily erase unwanted objects from images while maintaining natural visual flow.',
-  },
-  {
-    name: 'AI Background Enhancer',
-    icon: <Shield className="w-6 h-6 text-emerald-600" />,
-    description: 'Replace or enhance image backgrounds with smart AI suggestions and seamless blending.',
-  },
-  {
-    name: 'AI Resume Reviewer',
-    icon: <Shield className="w-6 h-6 text-emerald-600" />,
-    description: 'Analyze and improve resumes with AI-driven feedback for formatting, clarity, and impact.',
-  },
-  {
-    name: 'AI Article Writer',
-    icon: <Shield className="w-6 h-6 text-emerald-600" />,
-    description: 'Automatically generate engaging and SEO-friendly articles from simple topic prompts.',
-  },
-];
+
 
 const stats = [
-  { value: '4.9/5', label: 'Customer Satisfaction' },
-  { value: '99.99%', label: 'Uptime SLA' },
-  { value: '256-bit', label: 'Encryption' },
-  { value: '50ms', label: 'Response Time' },
+  { value: '99.9%', label: 'PRECISION ACCURACY', icon: <Target className="w-6 h-6" />, change: 'Industry Leading' },
+  { value: '50ms', label: 'RESPONSE TIME', icon: <ZapIcon className="w-6 h-6" />, change: 'Real-time Processing' },
+  { value: '256-bit', label: 'SECURITY STANDARD', icon: <ShieldIcon className="w-6 h-6" />, change: 'Military Grade' },
+  { value: '24/7', label: 'PLATFORM UPTIME', icon: <Gem className="w-6 h-6" />, change: 'Enterprise SLA' },
+];
+
+const testimonials = [
+  {
+    name: "Alexander Thorne",
+    role: "Head of AI Research - Quantum Tech",
+    content: "The intuitive interface combined with powerful AI capabilities has transformed our creative workflow.",
+    avatar: "/avatars/1.png",
+    rating: 5
+  },
+  {
+    name: "Isabella Chen",
+    role: "Chief Product Officer - Nexus Systems",
+    content: "Unprecedented processing speeds coupled with architectural precision and ease of use.",
+    avatar: "/avatars/2.png",
+    rating: 5
+  },
+  {
+    name: "Marcus Reyes",
+    role: "Director of Innovation - Synthetic Minds",
+    content: "The modular AI architecture allows for seamless enterprise integration with minimal setup.",
+    avatar: "/avatars/3.png",
+    rating: 5
+  }
 ];
 
 const companies = [
-  'google', 'amazon', 'netflix', 'microsoft', 'samsung', 'instagram', 'ibm', 'apple','threads',
-].map(name => ({ name, logo: `/compny_logos/${name}.png` }));
+  'Quantum', 'Synthetic', 'Nexus', 'Vertex', 'Polaris', 'Astral',
+  'Nova', 'Orion', 'Zenith', 'Apex', 'Vector', 'Matrix'
+];
+
+// Custom Hexagon component
+const Hexagon = (props) => (
+  <svg
+    {...props}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+  </svg>
+);
 
 const Hero = () => {
   const navigate = useNavigate();
-  const [activeFeature, setActiveFeature] = useState(0);
-  const [isHoveringButton, setIsHoveringButton] = useState(false);
-
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const spring = { damping: 25, stiffness: 700 };
-  const cursorXSpring = useSpring(cursorX, spring);
-  const cursorYSpring = useSpring(cursorY, spring);
+  const [activeModule, setActiveModule] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => setActiveFeature(i => (i + 1) % features.length), 3500);
+    const interval = setInterval(() => {
+      setActiveModule(prev => (prev + 1) % 6);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    const move = e => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-    };
-    const enter = e => e.target.closest('button, a') && setIsHoveringButton(true);
-    const leave = () => setIsHoveringButton(false);
+  const FloatingElements = () => (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Floating geometric shapes */}
+      {[...Array(12)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute border border-blue-200/30 rounded-lg"
+          style={{
+            width: 30 + i * 8,
+            height: 30 + i * 8,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            rotate: [0, 180, 360],
+            y: [0, -20, 0],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 15 + i * 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
 
-    window.addEventListener('mousemove', move);
-    document.addEventListener('mouseover', enter);
-    document.addEventListener('mouseout', leave);
-    return () => {
-      window.removeEventListener('mousemove', move);
-      document.removeEventListener('mouseover', enter);
-      document.removeEventListener('mouseout', leave);
-    };
-  }, []);
+      {/* Floating circles */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute border border-amber-200/30 rounded-full"
+          style={{
+            width: 20 + i * 6,
+            height: 20 + i * 6,
+            top: `${Math.random() * 100}%`,
+            right: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 30, 0],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{
+            duration: 12 + i * 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+
+      {/* Hexagon network */}
+      <motion.div
+        className="absolute top-1/4 right-1/4"
+        animate={{
+          rotate: 360,
+        }}
+        transition={{
+          duration: 40,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      >
+        <Hexagon className="w-24 h-24 text-blue-100" />
+      </motion.div>
+    </div>
+  );
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-white">
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/background.png')" }} />
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 to-violet-50/30 backdrop-blur-[10px] z-0" />
+    <div ref={containerRef} className="relative w-full min-h-screen overflow-hidden bg-gradient-to-br from-blue-50 via-white to-amber-50">
+      {/* Light Background with subtle patterns */}
+      <div className="absolute inset-0">
+        {/* Main gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-white to-amber-50/40" />
+        
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-[size:100px_100px] bg-[linear-gradient(to_right,_#3b82f6_1px,_transparent_1px),_linear-gradient(to_bottom,_#3b82f6_1px,_transparent_1px)]"></div>
+        </div>
 
-      {/* Cursor */}
-      <motion.div
-        className="fixed z-50 pointer-events-none"
-        style={{ x: cursorXSpring, y: cursorYSpring, translateX: '-50%', translateY: '-50%' }}
-        animate={{ scale: isHoveringButton ? 0.7 : 1, opacity: isHoveringButton ? 0.9 : 1 }}
-        transition={{ type: 'spring', damping: 20, stiffness: 400 }}
-      >
-        <img src="/cursor.png" alt="Cursor" className="w-8 h-8 object-contain" style={{ filter: 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.5))' }} />
-      </motion.div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 lg:py-40 flex flex-col items-center">
-        {/* Badge */}
+        {/* Animated sun rays */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="inline-flex items-center gap-2 mb-10 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-emerald-100 shadow-sm"
-        >
-          <div className="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-500 to-violet-600 flex items-center justify-center">
-            <Sparkles className="w-3 h-3 text-white" />
-          </div>
-          <span className="text-sm font-medium tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
-            WELCOME TO GENAXIS AI PLATFORM
-          </span>
-          <div className="ml-2 px-2 py-0.5 rounded-full bg-violet-100 text-xs font-medium text-violet-700">NEW</div>
-        </motion.div>
-
-        {/* Heading */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-center mb-12">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-tight mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-violet-600 to-purple-600">Intelligent AI</span>
-            <br /><span className="text-gray-900">For The Modern Enterprise</span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-            The most advanced AI platform with unmatched performance, security, and scalability for mission-critical applications.
-          </p>
-        </motion.div>
-
-        {/* Feature */}
-        <div className="relative h-28 mb-16 w-full max-w-3xl">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeFeature}
-              className="absolute inset-0 flex flex-col items-center"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="flex items-center gap-3 text-2xl font-semibold">
-                <div className="p-2 rounded-lg bg-gradient-to-r from-emerald-100 to-violet-100 border border-emerald-50">
-                  {features[activeFeature].icon}
-                </div>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">{features[activeFeature].name}</span>
-              </div>
-              <p className="mt-4 text-xl text-center text-gray-600 max-w-2xl leading-relaxed">{features[activeFeature].description}</p>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Stats */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-16 w-full max-w-4xl">
-          {stats.map((s, i) => (
-            <motion.div key={i} whileHover={{ y: -5 }} className="bg-white/90 border border-emerald-100 rounded-xl p-5 text-center backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
-              <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600 mb-2">{s.value}</div>
-              <div className="text-sm text-gray-500 uppercase tracking-wider font-medium">{s.label}</div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* CTA Buttons */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }} className="flex flex-wrap justify-center gap-5 mb-20">
-          {[
-            {
-              label: 'Get Started',
-              icon: <Zap className="w-5 h-5" />,
-              onClick: () => navigate('/enterprise-contact'),
-              className: 'bg-gradient-to-r from-emerald-600 to-violet-600 text-white',
-              overlay: true,
-            },
-            {
-              label: 'Live Demo',
-              icon: <Sparkles className="w-5 h-5 text-violet-500" />,
-              onClick: () => navigate('/demo'),
-              className: 'bg-white/90 border border-emerald-200 text-gray-800',
-              overlay: false,
-            },
-          ].map(({ label, icon, onClick, className, overlay }, i) => (
-            <motion.button
-              key={label}
-              onClick={onClick}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className={`flex items-center gap-3 px-8 py-4 rounded-xl font-semibold group relative overflow-hidden shadow-md hover:shadow-lg transition-all ${className}`}
-            >
-              {overlay && <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/30 to-violet-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />}
-              {icon}
-              <span className="text-lg">{label}</span>
-              <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
-            </motion.button>
-          ))}
-        </motion.div>
-
-        {/* Logo Carousel */}
-        <div className="w-full overflow-hidden py-8">
-          <div className="text-center text-sm uppercase tracking-wider text-gray-400 mb-6">Trusted by industry leaders</div>
-          <motion.div className="flex items-center gap-12" animate={{ x: ['0%', '-100%'] }} transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}>
-            {[...companies, ...companies].map((c, i) => (
-              <div key={`${c.name}-${i}`} className="flex-shrink-0">
-                <div className="w-40 h-20 flex items-center justify-center bg-white/90 rounded-lg p-4 shadow-sm border border-emerald-100 hover:shadow-md transition-all">
-                  <img src={c.logo} alt={c.name} className="max-h-12 max-w-full object-contain opacity-80 hover:opacity-100 transition-opacity" />
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
+          className="absolute top-10 right-10 w-32 h-32 bg-yellow-200/20 rounded-full blur-xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
       </div>
 
-      {/* Floating Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => {
-          const size = Math.random() * 10 + 5;
-          return (
+      {/* Floating Elements */}
+      <FloatingElements />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32">
+        {/* Header Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="inline-flex items-center gap-3 mb-16 px-6 py-3 rounded-full bg-white/80 backdrop-blur-md border border-blue-200 shadow-lg"
+        >
+          <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-amber-500 flex items-center justify-center">
+            <Sun className="w-3 h-3 text-white" />
+          </div>
+          <span className="text-sm font-bold tracking-wider text-gray-700">
+            Intelligent AI Platform
+          </span>
+          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+        </motion.div>
+
+        {/* Main Heading */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-center mb-20"
+        >
+          <motion.h1
+            className="text-6xl sm:text-8xl lg:text-9xl font-black mb-8 tracking-tighter"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.3 }}
+          >
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-amber-600 bg-clip-text text-transparent">
+              GENAXIS
+            </span>
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+              Modern AI Solutions
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Transform your workflow with our intuitive AI platform designed for creativity and productivity
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* Feature Showcase */}
+        
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 2.4 }}
+          className="text-center mb-20"
+        >
+          <div className="max-w-2xl mx-auto">
+            <h3 className="text-4xl font-bold text-gray-800 mb-6">
+              Start Your AI Journey
+            </h3>
+            <p className="text-gray-600 mb-8 text-lg">
+              Join thousands of creators and businesses transforming their workflow
+            </p>
+            
+            <div className="flex flex-wrap justify-center gap-6">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/get-started')}
+                className="px-12 py-4 bg-gradient-to-r from-blue-500 to-amber-500 text-white rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                <span className="flex items-center gap-3">
+                  Get Started Free
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </motion.button>
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/demo')}
+                className="px-12 py-4 border-2 border-gray-300 text-gray-700 rounded-2xl font-bold text-lg hover:border-blue-500 hover:text-blue-600 transition-all duration-300 group"
+              >
+                <span className="flex items-center gap-3">
+                  <Play className="w-5 h-5" />
+                  Watch Demo
+                </span>
+              </motion.button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Testimonials */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.8 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20"
+        >
+          {testimonials.map((testimonial, index) => (
             <motion.div
-              key={i}
-              className="absolute rounded-full bg-emerald-200/30"
-              initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-                width: size,
-                height: size,
-                opacity: Math.random() * 0.5 + 0.1,
-              }}
-              animate={{
-                y: [0, Math.random() * 100 - 50],
-                x: [0, Math.random() * 100 - 50],
-                transition: {
-                  duration: Math.random() * 10 + 10,
-                  repeat: Infinity,
-                  repeatType: 'reverse',
-                  ease: 'easeInOut',
-                },
-              }}
-            />
-          );
-        })}
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 3.0 + index * 0.2 }}
+              whileHover={{ y: -5 }}
+              className="bg-white/80 backdrop-blur-md rounded-2xl p-8 border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              <div className="flex items-center mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-100 to-amber-100 mr-4 overflow-hidden border-2 border-white shadow-sm">
+                  <img src={testimonial.avatar} alt={testimonial.name} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-800 text-lg">{testimonial.name}</h4>
+                  <p className="text-gray-600 text-sm">{testimonial.role}</p>
+                </div>
+              </div>
+              
+              <div className="flex mb-4">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400 mr-1" />
+                ))}
+              </div>
+              
+              <p className="text-gray-600 leading-relaxed italic">
+                "{testimonial.content}"
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Company Logos */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3.4 }}
+          className="text-center"
+        >
+          <h4 className="text-lg font-semibold text-gray-600 mb-12">
+            Trusted by innovative teams worldwide
+          </h4>
+          
+          <div className="flex flex-wrap justify-center gap-12">
+            {companies.map((company, index) => (
+              <motion.div
+                key={company}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 3.6 + index * 0.1 }}
+                whileHover={{ scale: 1.1 }}
+                className="text-gray-700 text-xl font-bold hover:text-blue-600 transition-colors cursor-pointer"
+              >
+                {company}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Floating particles */}
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-blue-200 rounded-full opacity-40"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -60, 0],
+              x: [0, Math.random() * 40 - 20, 0],
+              opacity: [0.2, 0.6, 0.2],
+            }}
+            transition={{
+              duration: 6 + Math.random() * 4,
+              repeat: Infinity,
+              delay: Math.random() * 5,
+            }}
+          />
+        ))}
+
+        {/* Light rays */}
+        <motion.div
+          className="absolute top-0 left-1/2 w-px h-64 bg-gradient-to-b from-transparent via-blue-200/30 to-transparent"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          style={{ originX: "0.5px", originY: "32px" }}
+        />
       </div>
     </div>
   );
