@@ -11,9 +11,14 @@
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.35.3",
+    "@gsap/react": "^2.1.2",
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.4.0",
     "@tailwindcss/vite": "^4.1.11",
+    "@types/three": "^0.180.0",
     "axios": "^1.11.0",
     "framer-motion": "^12.23.6",
+    "gsap": "^3.13.0",
     "lodash.throttle": "^4.1.1",
     "lucide-react": "^0.525.0",
     "prism-react-renderer": "^2.4.1",
@@ -23,7 +28,8 @@
     "react-markdown": "^10.1.0",
     "react-modal": "^3.16.3",
     "react-router-dom": "^7.7.0",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "three": "^0.180.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
