@@ -28,46 +28,13 @@ const Plans = () => {
       </div>
 
       <div className="mt-14 max-sm:mx-8">
-        <div className="clerk-pricing-wrapper sm:flex sm:justify-center sm:gap-6">
-          <PricingTable
-            appearance={{
-              variables: {
-                colorPrimary: 'linear-gradient(to right, #10B981, #7C3AED)',
-                colorTextOnPrimaryBackground: '#fff',
-                colorTextSecondary: '#6B7280',
-                colorBackground: '#fff',
-                colorInputBackground: '#fff',
-                colorShimmer:
-                  'linear-gradient(90deg, transparent, rgba(16,185,129,0.1), transparent)'
-              },
-              elements: {
-                card: {
-                  boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)',
-                  border: '1px solid #E5E7EB'
-                },
-                badge: {
-                  backgroundColor: '#ECFDF5',
-                  color: '#065F46'
-                },
-                button: {
-                  background: 'linear-gradient(to right, #10B981, #7C3AED)',
-                  boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-                  '&:hover': {
-                    background: 'linear-gradient(to right, #0EA371, #6D28D9)'
-                  }
-                },
-                footer: {
-                  '& + div': {
-                    borderTop: '1px solid #E5E7EB'
-                  }
-                }
-              }
-            }}
-          />
-        </div>
+           <div className='mt-14 max-sm:mx-8'>
+        <PricingTable/>
+      </div>
       </div>
     </div>
   );
 };
 
 export default Plans;
+
