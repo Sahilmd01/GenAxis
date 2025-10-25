@@ -95,7 +95,7 @@ const Hero = () => {
             className="w-1.5 h-1.5 rounded-full bg-purple-500"
           />
           <span className="text-xs font-medium tracking-wider text-white/90 uppercase">
-            Enterprise AI Platform
+            BACKGROUND INSPIRED BY HULY.IO
           </span>
         </motion.div>
 

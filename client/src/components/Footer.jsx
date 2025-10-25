@@ -89,7 +89,7 @@ const Footer = () => {
             playsInline
             className="w-full h-full object-cover"
           >
-            <source src="/videos/blogtitlegenerator.mp4" type="video/mp4" />
+            <source src="/videos/footer.mp4" type="video/mp4" />
           </video>
         </div>
 
@@ -107,9 +107,9 @@ const Footer = () => {
               <div className="bg-black/95 backdrop-blur-sm rounded-2xl p-6 border-2 border-gray-800 shadow-xl hover:shadow-[0_15px_40px_rgba(168,85,247,0.25)] transition-all duration-300">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/20 overflow-hidden">
-                    <img 
-                      src="/logo.png" 
-                      alt="GenAxis Logo" 
+                    <img
+                      src="/logo.png"
+                      alt="GenAxis Logo"
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.target.style.display = 'none';
@@ -130,7 +130,7 @@ const Footer = () => {
                 <p className="text-gray-300 text-sm mb-6">
                   Building the next generation of AI tools to empower creators, developers, and businesses worldwide.
                 </p>
-                
+
                 {/* Social Links */}
                 <div className="flex gap-3">
                   {socialLinks.map((social, index) => (
@@ -251,6 +251,9 @@ const Footer = () => {
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               <p className="text-white/80 text-sm">
                 © {new Date().getFullYear()} GenAxis AI. All rights reserved.
+              </p>
+              <p className="text-white/80 text-sm">
+                © Developed by Sahil with ❤️
               </p>
               <div className="flex gap-6 text-sm">
                 <motion.a

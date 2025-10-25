@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { assets } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, Menu, X, User } from 'lucide-react';
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react';
@@ -53,11 +52,21 @@ const Navbar = () => {
     };
   }, [dropdownTimeout]);
 
+  // Handle GitHub navigation
+  const handleGitHubClick = () => {
+    window.open('https://github.com/sahilmd01', '_blank', 'noopener,noreferrer');
+  };
+
   // Navigation items for right side
   const rightNavItems = [
-    { label: 'Home', path: '/' },
-    { label: 'About', path: '/about' },
-    { label: 'Contact us', path: '/contact' },
+    { 
+      label: 'Star us', 
+      path: 'https://github.com/Sahilmd01/GenAxis',
+      external: true,
+      icon: '/github.png'
+    },
+    { label: 'About', path: '/about', external: false },
+    { label: 'Contact us', path: '/contact', external: false },
   ];
 
   // Dropdown items for left side
@@ -83,6 +92,18 @@ const Navbar = () => {
       { label: 'Terms', path: '/legal/terms' },
       { label: 'Security', path: '/legal/security' },
     ]
+  };
+
+  // Handle navigation click
+  const handleNavClick = (item) => {
+    if (item.external) {
+      handleGitHubClick();
+    } else {
+      navigate(item.path);
+    }
+    if (isMobile) {
+      setMobileMenuOpen(false);
+    }
   };
 
   // Handle dropdown hover with proper timing
@@ -128,7 +149,7 @@ const Navbar = () => {
               onClick={() => navigate('/')}
             >
               <div className="flex items-center space-x-2">
-                <img src={assets.logo} alt="Logo" className="h-6 w-6 filter brightness-0 invert" />
+                <img src="/logo.png" alt="Logo" className="h-6 w-6" />
                 <span className="text-white text-lg font-semibold">
                   GenAxis
                 </span>
@@ -188,9 +209,16 @@ const Navbar = () => {
                   <motion.button
                     key={item.label}
                     whileHover={{ scale: 1.05 }}
-                    onClick={() => navigate(item.path)}
-                    className="text-white/80 hover:text-white text-sm font-medium cursor-pointer transition-colors duration-200"
+                    onClick={() => handleNavClick(item)}
+                    className="flex items-center text-white/80 hover:text-white text-sm font-medium cursor-pointer transition-colors duration-200"
                   >
+                    {item.icon && (
+                      <img 
+                        src={item.icon} 
+                        alt="GitHub" 
+                        className="w-4 h-4 mr-2 filter brightness-0 invert" 
+                      />
+                    )}
                     {item.label}
                   </motion.button>
                 ))}
@@ -249,12 +277,16 @@ const Navbar = () => {
                 {rightNavItems.map((item) => (
                   <button
                     key={item.label}
-                    onClick={() => {
-                      navigate(item.path);
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full text-left p-3 text-white/80 hover:text-white text-base font-medium cursor-pointer transition-colors duration-200"
+                    onClick={() => handleNavClick(item)}
+                    className="w-full flex items-center p-3 text-white/80 hover:text-white text-base font-medium cursor-pointer transition-colors duration-200"
                   >
+                    {item.icon && (
+                      <img 
+                        src={item.icon} 
+                        alt="GitHub" 
+                        className="w-5 h-5 mr-3 filter brightness-0 invert" 
+                      />
+                    )}
                     {item.label}
                   </button>
                 ))}
