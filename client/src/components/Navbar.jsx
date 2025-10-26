@@ -80,7 +80,11 @@ const Navbar = () => {
     resources: [
       { label: 'Documentation', path: '/resources/documentation' },
       { label: 'API Reference', path: '/resources/api' },
-      { label: 'Blog', path: 'https://blogni.vercel.app' },//fix add a external link here open in new tab 
+      { 
+        label: 'Blog', 
+        path: 'https://blogni.vercel.app',
+        external: true 
+      },
     ],
     company: [
       { label: 'About', path: '/about' },
@@ -97,6 +101,18 @@ const Navbar = () => {
   const handleNavClick = (item) => {
     if (item.external) {
       handleGitHubClick();
+    } else {
+      navigate(item.path);
+    }
+    if (isMobile) {
+      setMobileMenuOpen(false);
+    }
+  };
+
+  // Handle dropdown item click
+  const handleDropdownItemClick = (item) => {
+    if (item.external) {
+      window.open(item.path, '_blank', 'noopener,noreferrer');
     } else {
       navigate(item.path);
     }
@@ -186,7 +202,7 @@ const Navbar = () => {
                       {items.map((item) => (
                         <button
                           key={item.label}
-                          onClick={() => navigate(item.path)}
+                          onClick={() => handleDropdownItemClick(item)}
                           className="w-full text-left px-3 py-2 rounded text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 text-sm cursor-pointer"
                         >
                           {item.label}
@@ -310,10 +326,7 @@ const Navbar = () => {
                         {items.map((item) => (
                           <button
                             key={item.label}
-                            onClick={() => {
-                              navigate(item.path);
-                              setMobileMenuOpen(false);
-                            }}
+                            onClick={() => handleDropdownItemClick(item)}
                             className="w-full text-left p-2 text-white/60 hover:text-white text-sm cursor-pointer transition-colors duration-200"
                           >
                             {item.label}
