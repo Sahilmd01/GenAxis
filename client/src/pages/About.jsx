@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from "@clerk/clerk-react";
 import { ChevronRight, Users, Target, Zap, Globe } from 'lucide-react';
-import Navbar from '../components/Navbar'; // Adjust the import path as needed
+import Navbar from '../components/Navbar';
 
 const About = () => {
   const navigate = useNavigate();
