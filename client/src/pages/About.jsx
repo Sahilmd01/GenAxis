@@ -1,323 +1,204 @@
-import Navbar from '../components/Navbar';
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
-import {
-  Zap, ShieldCheck, Bolt, Server, Lock, InfinityIcon,
-  Rocket, Database, Shield, Crown, BarChart2, Globe,
-  Award, Cpu, Sparkles, Users, Gem, ChevronRight
-} from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from "@clerk/clerk-react";
+import { ChevronRight, Users, Target, Zap, Globe } from 'lucide-react';
+import Navbar from '../components/Navbar'; // Adjust the import path as needed
 
 const About = () => {
   const navigate = useNavigate();
-  const [activeFeature, setActiveFeature] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
-  const cursorRef = useRef(null);
+  const { user } = useUser();
 
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const springConfig = { damping: 25, stiffness: 700 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % features.length);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-    };
-    const handleMouseEnter = (e) => {
-      if (e.target.closest('button, a, .hover-effect')) {
-        setIsHovering(true);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
       }
-    };
-    const handleMouseLeave = () => {
-      setIsHovering(false);
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseover', handleMouseEnter);
-    document.addEventListener('mouseout', handleMouseLeave);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseover', handleMouseEnter);
-      document.removeEventListener('mouseout', handleMouseLeave);
-    };
-  }, []);
-
-  const features = [
-    {
-      icon: <Cpu className="w-6 h-6 text-emerald-400" />, 
-      title: "Quantum AI Processing", 
-      desc: "Scalable AI infrastructure for enterprise needs",
-      badge: "EXCLUSIVE" 
-    },
-    {
-      icon: <ShieldCheck className="w-6 h-6 text-emerald-400" />, 
-      title: "Military-Grade Security", 
-      desc: "End-to-end encryption with compliance certifications",
-      badge: "TRUSTED" 
-    },
-    {
-      icon: <Bolt className="w-6 h-6 text-emerald-400" />, 
-      title: "Nanosecond Response", 
-      desc: "Multi-region architecture with 99.999% SLA",
-      badge: "ULTRA" 
     }
-  ];
+  };
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 40,
+      scale: 0.95
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "tween",
+        ease: [0.25, 0.46, 0.45, 0.94],
+        duration: 0.8
+      }
+    }
+  };
 
   const stats = [
-    { val: "99.99%", label: "Uptime SLA", icon: <Server className="w-5 h-5 text-emerald-400" /> },
-    { val: "256-bit", label: "Encryption", icon: <Lock className="w-5 h-5 text-emerald-400" /> },
-    { val: "<50ms", label: "Latency", icon: <Bolt className="w-5 h-5 text-emerald-400" /> },
-    { val: "Unlimited", label: "Scale", icon: <InfinityIcon className="w-5 h-5 text-emerald-400" /> },
-    { val: "Global", label: "Network", icon: <Globe className="w-5 h-5 text-emerald-400" /> },
-    { val: "SOC2", label: "Compliance", icon: <Shield className="w-5 h-5 text-emerald-400" /> }
+    { number: '50K+', label: 'Active Users' },
+    { number: '15+', label: 'AI Tools' },
+    { number: '98%', label: 'Satisfaction Rate' },
+    { number: '24/7', label: 'Support' }
   ];
 
-  const enterprise = [
+  const values = [
     {
-      title: "Global AI Infrastructure",
-      desc: "28 regions worldwide with dedicated nodes",
-      icon: <Globe className="w-6 h-6 text-emerald-400" />
+      icon: Zap,
+      title: 'Innovation',
+      description: 'Pushing the boundaries of AI technology to deliver cutting-edge solutions.'
     },
     {
-      title: "Enterprise SLAs",
-      desc: "Financial-backed uptime guarantees",
-      icon: <Award className="w-6 h-6 text-emerald-400" />
+      icon: Target,
+      title: 'Excellence',
+      description: 'Committed to delivering the highest quality tools and user experience.'
     },
     {
-      title: "Dedicated Acceleration",
-      desc: "ASIC-optimized AI models",
-      icon: <Cpu className="w-6 h-6 text-emerald-400" />
+      icon: Users,
+      title: 'Community',
+      description: 'Building a global community of creators, innovators, and visionaries.'
+    },
+    {
+      icon: Globe,
+      title: 'Accessibility',
+      description: 'Making advanced AI tools accessible to everyone, everywhere.'
     }
   ];
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-white">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Navbar */}
       <Navbar />
+      
+      {/* Background Effects */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-600/10 rounded-full blur-[80px]" />
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-indigo-600/10 rounded-full blur-[60px]" />
+      </div>
 
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/background.png')" }} />
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 to-violet-50/30 backdrop-blur-[10px] z-0" />
-
-      <motion.div
-        className="fixed z-50 pointer-events-none"
-        style={{ x: cursorXSpring, y: cursorYSpring, translateX: '-50%', translateY: '-50%' }}
-        ref={cursorRef}
-        animate={{ scale: isHovering ? 0.7 : 1, opacity: isHovering ? 0.9 : 1 }}
-        transition={{ type: 'spring', damping: 20, stiffness: 400 }}
-      >
-        <img src="/cursor.png" alt="Custom glowing cursor" loading="lazy" className="w-8 h-8 object-contain" style={{ filter: 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.5))' }} />
-      </motion.div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 lg:py-40">
-        {/* Badge */}
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 px-4 sm:px-20 xl:px-32">
         <motion.div
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ delay: 0.2 }}
-          className="inline-flex items-center gap-2 mb-10 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-emerald-100 shadow-sm"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="max-w-6xl mx-auto"
         >
-          <div className="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-500 to-violet-600 flex items-center justify-center">
-            <Sparkles className="w-3 h-3 text-white" />
-          </div>
-          <span className="text-sm font-medium tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
-            ABOUT GENAXIS AI
-          </span>
-          <div className="ml-2 px-2 py-0.5 rounded-full bg-violet-100 text-xs font-medium text-violet-700">NEW</div>
-        </motion.div>
-
-        {/* Main Content */}
-        <div className="flex flex-col lg:flex-row gap-16 items-center">
-          {/* Image Section */}
-          <motion.div 
-            className="flex-1"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <div className="relative rounded-2xl overflow-hidden border border-emerald-100 shadow-xl">
-              <img 
-                src="/about1.jpg" 
-                alt="About GenAxis" 
-                className="w-full h-auto object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-6 text-white">
-                <h3 className="text-2xl font-bold mb-2">Our Mission</h3>
-                <p className="text-emerald-100">Democratizing AI for enterprises worldwide</p>
-              </div>
-            </div>
+          <motion.div variants={itemVariants} className="text-center mb-16">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+              ABOUT US
+            </h1>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+              We're revolutionizing the way people interact with artificial intelligence, 
+              making advanced tools accessible and intuitive for everyone.
+            </p>
           </motion.div>
 
-          {/* Text Content */}
-          <div className="flex-1">
-            <motion.h2 
-              className="text-5xl font-bold leading-tight mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">Pioneering</span>
-              <br />
-              <span className="text-gray-900">AI Innovation</span>
-            </motion.h2>
-
-            <motion.p 
-              className="text-xl text-gray-600 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              GenAxis delivers <span className="font-semibold text-emerald-600">enterprise-grade AI solutions</span> with 
-              unmatched performance, security, and scalability for mission-critical applications.
-            </motion.p>
-
-            {/* Features */}
-            <motion.div 
-              className="relative h-28 mb-12 w-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              <div className="absolute inset-0 flex flex-col items-start">
-                <div className="flex items-center gap-3 text-2xl font-semibold mb-4">
-                  <div className="p-2 rounded-lg bg-gradient-to-r from-emerald-100 to-violet-100 border border-emerald-50">
-                    {features[activeFeature].icon}
-                  </div>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
-                    {features[activeFeature].title}
-                  </span>
-                  <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded-full ml-2">
-                    {features[activeFeature].badge}
-                  </span>
+          {/* Stats */}
+          <motion.div variants={itemVariants} className="grid grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl lg:text-4xl font-bold text-white mb-2">
+                  {stat.number}
                 </div>
-                <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-                  {features[activeFeature].desc}
-                </p>
+                <div className="text-gray-400 text-sm uppercase tracking-wider">
+                  {stat.label}
+                </div>
               </div>
-            </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </section>
 
-            {/* Stats */}
-            <motion.div 
-              className="grid grid-cols-2 md:grid-cols-3 gap-5 mb-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              {stats.map((s, i) => (
-                <motion.div 
-                  key={i} 
-                  whileHover={{ y: -5 }} 
-                  className="bg-white/90 border border-emerald-100 rounded-xl p-5 text-center backdrop-blur-sm shadow-sm hover:shadow-md transition-all"
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    {s.icon}
-                    <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
-                      {s.val}
-                    </div>
-                  </div>
-                  <div className="text-sm text-gray-500 uppercase tracking-wider font-medium mt-1">
-                    {s.label}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            {/* CTA Button */}
-            <motion.button
-              onClick={() => navigate('/contact')}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-3 px-8 py-4 rounded-xl font-semibold group relative overflow-hidden shadow-md hover:shadow-lg transition-all bg-gradient-to-r from-emerald-600 to-violet-600 text-white"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9 }}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/30 to-violet-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <Zap className="w-5 h-5" />
-              <span className="text-lg">Contact Our Team</span>
-              <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
-            </motion.button>
-          </div>
-        </div>
-
-        {/* Enterprise Features */}
-        <motion.div 
-          className="mt-32"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-        >
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-emerald-100 shadow-sm mb-6">
-              <Crown className="w-5 h-5 text-emerald-600" />
-              <span className="ml-2 text-sm font-medium text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
-                ENTERPRISE SOLUTIONS
-              </span>
+      {/* Mission Section */}
+      <section className="py-20 px-4 sm:px-20 xl:px-32 relative">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="grid lg:grid-cols-2 gap-12 items-center"
+          >
+            <div>
+              <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+                Our <span className="text-purple-400">Mission</span>
+              </h2>
+              <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+                To democratize artificial intelligence by creating tools that are powerful yet 
+                simple to use. We believe everyone should have access to cutting-edge AI 
+                technology, regardless of their technical background.
+              </p>
+              <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+                Our platform brings together the latest advancements in machine learning, 
+                natural language processing, and computer vision to solve real-world problems 
+                and enhance creativity.
+              </p>
             </div>
-            <h3 className="text-4xl font-bold text-gray-900 mb-4">
-              Built for <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">Mission-Critical</span> Workloads
-            </h3>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Engineered for the most demanding AI applications in finance, healthcare, and government sectors.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {enterprise.map((f, i) => (
-              <motion.div 
-                key={i}
-                whileHover={{ y: -5 }}
-                className="bg-white/90 border border-emerald-100 rounded-2xl p-8 backdrop-blur-sm shadow-sm hover:shadow-md transition-all"
+            <div className="relative">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="relative rounded-2xl overflow-hidden border border-gray-800"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 rounded-lg bg-gradient-to-r from-emerald-100 to-violet-100 border border-emerald-50">
-                    {f.icon}
-                  </div>
-                  <h4 className="text-xl font-semibold text-gray-900">{f.title}</h4>
+                <img 
+                  src="/images/faqs.png" 
+                  alt="AI Innovation"
+                  className="w-full h-full object-cover aspect-video"
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-20 px-4 sm:px-20 xl:px-32 bg-gray-900/30">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl lg:text-5xl font-bold mb-4">Our Values</h2>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              The principles that guide everything we build and every decision we make.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {values.map((value, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="group p-6 rounded-2xl bg-gray-900/50 border border-gray-800 hover:border-purple-500/50 transition-all duration-300 cursor-pointer"
+              >
+                <div className="w-12 h-12 bg-purple-600/20 rounded-xl flex items-center justify-center mb-4 group-hover:bg-purple-600/30 transition-colors duration-300 border border-purple-500/30">
+                  <value.icon className="w-6 h-6 text-purple-400" />
                 </div>
-                <p className="text-gray-600">{f.desc}</p>
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-purple-200 transition-colors duration-300">
+                  {value.title}
+                </h3>
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                  {value.description}
+                </p>
               </motion.div>
             ))}
           </div>
-        </motion.div>
-
-        {/* Floating Particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => {
-            const size = Math.random() * 10 + 5;
-            return (
-              <motion.div
-                key={i}
-                className="absolute rounded-full bg-emerald-200/30"
-                initial={{
-                  x: Math.random() * window.innerWidth,
-                  y: Math.random() * window.innerHeight,
-                  width: size,
-                  height: size,
-                  opacity: Math.random() * 0.5 + 0.1,
-                }}
-                animate={{
-                  y: [0, Math.random() * 100 - 50],
-                  x: [0, Math.random() * 100 - 50],
-                  transition: {
-                    duration: Math.random() * 10 + 10,
-                    repeat: Infinity,
-                    repeatType: 'reverse',
-                    ease: 'easeInOut',
-                  },
-                }}
-              />
-            );
-          })}
         </div>
-      </div>
+      </section>
     </div>
   );
 };
