@@ -12,9 +12,6 @@ import Community from './pages/Community';
 import About from './pages/About';
 import Contact from './pages/Contact';
 
-// Correct spelling: Careers
-import Careers from './pages/company/Careers';
-
 // Correct spelling: Terms
 import Privacy from './pages/legal/Privacy';
 import Security from './pages/legal/Security';
@@ -28,7 +25,6 @@ import Solution from './pages/product/Solution';
 
 // Resources pages
 import Api from './pages/resources/Api';
-import Blog from './pages/resources/Blog';
 import Documentation from './pages/resources/Documentation';
 
 import { Toaster } from 'react-hot-toast';
@@ -57,9 +53,6 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* Company Pages */}
-        <Route path="/company/careers" element={<Careers />} />
-
         {/* Legal Pages */}
         <Route path="/legal/privacy" element={<Privacy />} />
         <Route path="/legal/security" element={<Security />} />
@@ -73,7 +66,6 @@ const App = () => {
 
         {/* Resources Pages */}
         <Route path="/resources/api" element={<Api />} />
-        <Route path="/resources/blog" element={<Blog />} />
         <Route path="/resources/documentation" element={<Documentation />} />
       </Routes>
     </div>

@@ -54,7 +54,7 @@ const Navbar = () => {
 
   // Handle GitHub navigation
   const handleGitHubClick = () => {
-    window.open('https://github.com/sahilmd01', '_blank', 'noopener,noreferrer');
+    window.open('https://github.com/sahilmd01/GenAxis', '_blank', 'noopener,noreferrer');
   };
 
   // Navigation items for right side
@@ -80,11 +80,10 @@ const Navbar = () => {
     resources: [
       { label: 'Documentation', path: '/resources/documentation' },
       { label: 'API Reference', path: '/resources/api' },
-      { label: 'Blog', path: '/resources/blog' },
+      { label: 'Blog', path: 'https://blogni.vercel.app' },//fix add a external link here open in new tab 
     ],
     company: [
       { label: 'About', path: '/about' },
-      { label: 'Careers', path: '/company/careers' },
       { label: 'Contact', path: '/contact' },
     ],
     legal: [
