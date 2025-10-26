@@ -15,7 +15,7 @@ const Layout = () => {
         <div className="flex items-center gap-3">
           <img 
             src="/logo.png" 
-            className='cursor-pointer w-10 h-10 object-contain' 
+            className='cursor-pointer w-12 h-12 object-contain' 
             alt="Logo" 
             onClick={() => navigate('/')} 
           />
