@@ -21,7 +21,6 @@ import Terms from './pages/legal/Terms';
 import Demo from './pages/product/Demo';
 import Feature from './pages/product/Feature';
 import Pricing from './pages/product/Pricing';
-import Solution from './pages/product/Solution';
 
 // Resources pages
 import Api from './pages/resources/Api';
@@ -62,7 +61,6 @@ const App = () => {
         <Route path="/product/demo" element={<Demo />} />
         <Route path="/product/feature" element={<Feature />} />
         <Route path="/product/pricing" element={<Pricing />} />
-        <Route path="/product/solution" element={<Solution />} />
 
         {/* Resources Pages */}
         <Route path="/resources/api" element={<Api />} />

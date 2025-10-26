@@ -73,7 +73,6 @@ const Navbar = () => {
   const dropdownItems = {
     product: [
       { label: 'Features', path: '/product/feature' },
-      { label: 'Solutions', path: '/product/solution' },
       { label: 'Pricing', path: '/product/pricing' },
       { label: 'Demo', path: '/product/demo' },
     ],
