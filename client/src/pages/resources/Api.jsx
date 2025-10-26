@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Code, Zap, ChevronRight, Sparkles, Cpu, Database, Globe, Shield, Clipboard } from 'lucide-react';
+import Navbar from '../../components/Navbar';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const endpoints = [
@@ -9,28 +10,28 @@ const endpoints = [
     method: 'POST',
     path: '/api/v1/images/generate',
     description: 'Generate AI images from text prompts with customizable parameters.',
-    icon: <Cpu className="w-5 h-5 text-emerald-600" />,
+    icon: <Cpu className="w-5 h-5 text-purple-400" />,
   },
   {
     name: 'Background Removal',
     method: 'POST',
     path: '/api/v1/images/remove-background',
     description: 'Remove backgrounds from images with high precision.',
-    icon: <Database className="w-5 h-5 text-emerald-600" />,
+    icon: <Database className="w-5 h-5 text-purple-400" />,
   },
   {
     name: 'Object Removal',
     method: 'POST',
     path: '/api/v1/images/remove-object',
     description: 'Remove unwanted objects from images seamlessly.',
-    icon: <Globe className="w-5 h-5 text-emerald-600" />,
+    icon: <Globe className="w-5 h-5 text-purple-400" />,
   },
   {
     name: 'Text Analysis',
     method: 'POST',
     path: '/api/v1/text/analyze',
     description: 'Analyze and process text content with AI models.',
-    icon: <Shield className="w-5 h-5 text-emerald-600" />,
+    icon: <Shield className="w-5 h-5 text-purple-400" />,
   },
 ];
 
@@ -89,141 +90,210 @@ const Api = () => {
   };
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-white">
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/background.png')" }} />
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 to-violet-50/30 backdrop-blur-[10px] z-0" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-28">
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ delay: 0.2 }}
-          className="mb-16 text-center"
+    <div className="max-w-7xl mx-auto z-20 my-30 px-4">
+      <div className="fixed top-0 left-0 w-full z-50 bg-opacity-70 backdrop-blur-md border-b border-purple-500/10">
+        <Navbar />
+      </div>
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        viewport={{ once: true }}
+        className="text-center mb-16"
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-white text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
         >
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-violet-600 to-purple-600">GenAxis</span>
-            <span className="text-gray-900"> API</span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Powerful, scalable API endpoints to integrate AI capabilities directly into your applications.
-          </p>
-        </motion.div>
+          GENAXIS API
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed"
+        >
+          Powerful, scalable API endpoints to integrate AI capabilities directly into your applications.
+        </motion.p>
+      </motion.div>
 
-        {/* API Endpoints */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-          {endpoints.map((endpoint, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ y: -5 }}
-              className="bg-white/90 border border-emerald-100 rounded-xl p-6 backdrop-blur-sm shadow-sm hover:shadow-md transition-all"
-            >
-              <div className="flex items-start gap-4">
-                <div className="p-2 rounded-lg bg-gradient-to-r from-emerald-100 to-violet-100 border border-emerald-50">
-                  {endpoint.icon}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-xl font-semibold text-gray-900">{endpoint.name}</h3>
-                    <span className={`px-2 py-1 text-xs font-medium rounded ${
-                      endpoint.method === 'POST' 
-                        ? 'bg-violet-100 text-violet-800' 
-                        : 'bg-emerald-100 text-emerald-800'
+      {/* API Endpoints */}
+      <motion.div
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.1
+            }
+          }
+        }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-28"
+      >
+        {endpoints.map((endpoint, index) => (
+          <motion.div
+            key={index}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.5
+                }
+              }
+            }}
+            whileHover={{ y: -5, scale: 1.02 }}
+            className="p-6 rounded-2xl border border-gray-800 backdrop-blur-sm hover:border-purple-500/30 transition-all duration-300 group bg-gray-900/50"
+          >
+            <div className="flex items-start gap-4">
+              <div className="p-2 rounded-lg border border-purple-500/30 group-hover:bg-purple-600/20 transition-colors">
+                {endpoint.icon}
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-3">
+                  <h3 className="font-semibold text-white group-hover:text-purple-200 transition-colors text-xl">
+                    {endpoint.name}
+                  </h3>
+                  <span className={`px-2 py-1 text-xs font-medium rounded ${endpoint.method === 'POST'
+                      ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                      : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
                     }`}>
-                      {endpoint.method}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 mb-4">{endpoint.description}</p>
-                  <div className="bg-gray-50 rounded-lg p-3 font-mono text-sm text-gray-700 overflow-x-auto">
-                    {endpoint.path}
-                  </div>
+                    {endpoint.method}
+                  </span>
+                </div>
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors mb-4 leading-relaxed">
+                  {endpoint.description}
+                </p>
+                <div className="bg-gray-800/50 rounded-lg p-3 font-mono text-sm text-gray-300 overflow-x-auto border border-gray-700">
+                  {endpoint.path}
                 </div>
               </div>
-            </motion.div>
-          ))}
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Code Sample Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mb-28"
+      >
+        <motion.h3
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="text-3xl lg:text-4xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
+        >
+          Code Samples
+        </motion.h3>
+
+        <div className="flex items-center justify-center mb-6">
+          <div className="flex items-center gap-2 bg-gray-800/50 rounded-xl p-1 border border-gray-700">
+            {['javascript', 'python', 'curl'].map((lang) => (
+              <button
+                key={lang}
+                onClick={() => setActiveTab(lang)}
+                className={`px-6 py-3 text-sm font-medium rounded-lg transition-all ${activeTab === lang
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
+                  }`}
+              >
+                {lang.charAt(0).toUpperCase() + lang.slice(1)}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Code Sample Section */}
-        <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          transition={{ delay: 0.4 }}
-          className="mb-16"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Code Samples</h2>
-            <div className="flex items-center gap-2">
-              {['javascript', 'python', 'curl'].map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setActiveTab(lang)}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                    activeTab === lang
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-white/90 border border-emerald-100 text-gray-700 hover:bg-emerald-50'
-                  }`}
-                >
-                  {lang.charAt(0).toUpperCase() + lang.slice(1)}
-                </button>
-              ))}
+        <div className="relative bg-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-800">
+          <div className="flex items-center justify-between bg-gray-800/80 px-6 py-4 border-b border-gray-700">
+            <div className="flex items-center gap-3">
+              <Code className="w-5 h-5 text-purple-400" />
+              <span className="text-gray-300 font-mono text-sm">{endpoints[0].path}</span>
             </div>
+            <button
+              onClick={copyToClipboard}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-700/50 rounded-xl text-sm text-gray-300 hover:bg-gray-600/50 transition-all duration-300 border border-gray-600 hover:border-purple-500/30"
+            >
+              <Clipboard className="w-4 h-4" />
+              {copied ? 'Copied!' : 'Copy Code'}
+            </button>
           </div>
+          <pre className="p-8 overflow-x-auto text-gray-100 font-mono text-sm leading-relaxed bg-gradient-to-br from-gray-900 to-gray-800">
+            {codeSamples[activeTab]}
+          </pre>
+        </div>
+      </motion.div>
 
-          <div className="relative bg-gray-900 rounded-xl overflow-hidden shadow-lg">
-            <div className="flex items-center justify-between bg-gray-800 px-6 py-3">
-              <div className="flex items-center gap-2">
-                <Code className="w-5 h-5 text-gray-400" />
-                <span className="text-gray-300 font-mono text-sm">{endpoints[0].path}</span>
-              </div>
-              <button
-                onClick={copyToClipboard}
-                className="flex items-center gap-1 px-3 py-1.5 bg-gray-700 rounded-md text-sm text-gray-300 hover:bg-gray-600 transition-colors"
-              >
-                <Clipboard className="w-4 h-4" />
-                {copied ? 'Copied!' : 'Copy'}
-              </button>
-            </div>
-            <pre className="p-6 overflow-x-auto text-gray-100 font-mono text-sm">
-              {codeSamples[activeTab]}
-            </pre>
-          </div>
-        </motion.div>
-
-        {/* CTA Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ delay: 0.6 }}
-          className="bg-gradient-to-r from-emerald-600 to-violet-600 rounded-2xl p-8 md:p-12 text-center shadow-lg"
-        >
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Ready to integrate AI into your application?</h2>
-          <p className="text-emerald-100 max-w-2xl mx-auto mb-8">
+      {/* CTA Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-center"
+      >
+        <div className="px-8 py-16 rounded-2xl border border-purple-500/20 backdrop-blur-sm bg-gradient-to-br from-gray-900/80 to-purple-900/20">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-2xl lg:text-3xl font-bold text-white mb-4"
+          >
+            Ready to integrate AI into your application?
+          </motion.h3>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="text-gray-300 max-w-2xl mx-auto mb-8 text-lg"
+          >
             Get started with our API today and unlock the power of AI for your business.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          >
             <motion.button
               onClick={() => navigate('/signup')}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-3 px-8 py-4 rounded-xl font-semibold bg-white text-emerald-600 group relative overflow-hidden shadow-md hover:shadow-lg transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 group"
             >
               <Zap className="w-5 h-5" />
               <span className="text-lg">Get API Key</span>
-              <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
+              <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
             </motion.button>
             <motion.button
               onClick={() => navigate('/documentation')}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-3 px-8 py-4 rounded-xl font-semibold bg-white/10 text-white border border-white/20 group relative overflow-hidden shadow-md hover:shadow-lg transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-3 px-8 py-4 border border-gray-600 text-white font-semibold rounded-xl hover:border-purple-500 hover:bg-purple-500/10 transition-all duration-300 group"
             >
               <Sparkles className="w-5 h-5" />
               <span className="text-lg">View Documentation</span>
-              <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300" />
+              <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
             </motion.button>
-          </div>
-        </motion.div>
-      </div>
+          </motion.div>
+        </div>
+      </motion.div>
     </div>
   );
 };

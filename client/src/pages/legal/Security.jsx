@@ -1,22 +1,23 @@
 import React from 'react';
 import { Lock, ShieldCheck, Key, Cpu, ChevronRight } from 'lucide-react';
+import Navbar from '../../components/Navbar';
 import { motion } from 'framer-motion';
 
 const Security = () => {
   const features = [
     {
       title: 'Encryption',
-      icon: <Lock className="w-5 h-5 text-emerald-600" />,
+      icon: <Lock className="w-5 h-5 text-purple-400" />,
       description: 'All data encrypted in transit and at rest'
     },
     {
       title: 'Access Control',
-      icon: <Key className="w-5 h-5 text-emerald-600" />,
+      icon: <Key className="w-5 h-5 text-purple-400" />,
       description: 'Role-based permissions and 2FA enforcement'
     },
     {
       title: 'Infrastructure',
-      icon: <Cpu className="w-5 h-5 text-emerald-600" />,
+      icon: <Cpu className="w-5 h-5 text-purple-400" />,
       description: 'Enterprise-grade secure cloud hosting'
     }
   ];
@@ -29,122 +30,220 @@ const Security = () => {
   ];
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-white">
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/background.png')" }} />
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 to-violet-50/30 backdrop-blur-[10px] z-0" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 lg:py-40">
-        {/* Header */}
+    <div className="max-w-7xl mx-auto z-20 my-30 px-4">
+      <div className="fixed top-0 left-0 w-full z-50 bg-opacity-70 backdrop-blur-md border-b border-purple-500/10">
+        <Navbar />
+      </div>
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        viewport={{ once: true }}
+        className="text-center mb-16"
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-col items-center mb-16 text-center"
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20"
         >
-          <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-emerald-100 shadow-sm">
-            <div className="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-500 to-violet-600 flex items-center justify-center">
-              <ShieldCheck className="w-3 h-3 text-white" />
-            </div>
-            <span className="text-sm font-medium tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
-              ENTERPRISE SECURITY
-            </span>
-          </div>
-          <h1 className="text-5xl sm:text-6xl font-bold leading-tight mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">Security</span>
-            <span className="text-gray-900"> Standards</span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl">
-            Our commitment to protecting your data with industry-leading security practices.
-          </p>
+          <ShieldCheck className="w-4 h-4 text-purple-400" />
+          <span className="text-purple-300 text-sm font-medium">ENTERPRISE SECURITY</span>
         </motion.div>
 
-        {/* Features */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + index * 0.1 }}
-              whileHover={{ y: -5 }}
-              className="bg-white/90 border border-emerald-100 rounded-xl p-8 shadow-sm hover:shadow-md transition-all"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-lg bg-gradient-to-r from-emerald-100 to-violet-100 border border-emerald-50">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">{feature.title}</h3>
-              </div>
-              <p className="text-gray-600">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-white text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+        >
+          SECURITY STANDARDS
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed"
+        >
+          Our commitment to protecting your data with industry-leading security practices.
+        </motion.p>
+      </motion.div>
 
-        {/* Certifications */}
-        <div className="bg-white/90 border border-emerald-100 rounded-xl p-8 shadow-sm mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
-            <ShieldCheck className="w-6 h-6 text-emerald-600" />
-            <span>Compliance & Certifications</span>
-          </h2>
-          
-          <div className="flex flex-wrap gap-4">
+      {/* Features */}
+      <motion.div
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.1
+            }
+          }
+        }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-28"
+      >
+        {features.map((feature, index) => (
+          <motion.div
+            key={index}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.5
+                }
+              }
+            }}
+            whileHover={{ y: -5, scale: 1.02 }}
+            className="p-6 rounded-2xl border border-gray-800 backdrop-blur-sm hover:border-purple-500/30 transition-all duration-300 group bg-gray-900/50"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg border border-purple-500/30 group-hover:bg-purple-600/20 transition-colors">
+                {feature.icon}
+              </div>
+              <h3 className="font-semibold text-white group-hover:text-purple-200 transition-colors text-xl">
+                {feature.title}
+              </h3>
+            </div>
+            <p className="text-gray-400 group-hover:text-gray-300 transition-colors">
+              {feature.description}
+            </p>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* Certifications */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mb-28"
+      >
+        <div className="p-8 rounded-2xl border border-gray-800 backdrop-blur-sm bg-gray-900/50">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-2xl lg:text-3xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
+          >
+            Compliance & Certifications
+          </motion.h3>
+
+          <div className="flex flex-wrap justify-center gap-4">
             {certifications.map((cert, index) => (
               <motion.div
                 key={index}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 + index * 0.1 }}
                 whileHover={{ scale: 1.05 }}
-                className="px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100 text-emerald-700 font-medium"
+                className="px-6 py-3 bg-purple-500/10 rounded-full border border-purple-500/30 text-purple-300 font-medium hover:bg-purple-500/20 transition-all duration-300"
               >
                 {cert}
               </motion.div>
             ))}
           </div>
         </div>
+      </motion.div>
 
-        {/* Security Practices */}
-        <div className="mb-12">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-6">Our Security Practices</h2>
-          <ul className="space-y-4">
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5 flex-shrink-0">
-                <ChevronRight className="w-4 h-4 text-emerald-600" />
-              </div>
-              <p className="text-gray-600">Regular third-party security audits and penetration testing</p>
-            </li>
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5 flex-shrink-0">
-                <ChevronRight className="w-4 h-4 text-emerald-600" />
-              </div>
-              <p className="text-gray-600">24/7 security monitoring and incident response</p>
-            </li>
-            <li className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5 flex-shrink-0">
-                <ChevronRight className="w-4 h-4 text-emerald-600" />
-              </div>
-              <p className="text-gray-600">Employee security training and background checks</p>
-            </li>
-          </ul>
-        </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="text-center"
-        >
-          <p className="text-gray-600 mb-6">
-            Need detailed security documentation for your compliance team?
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-gradient-to-r from-emerald-600 to-violet-600 text-white px-8 py-4 rounded-xl font-semibold inline-flex items-center gap-3"
+      {/* Security Practices */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mb-28"
+      >
+        <div className="p-8 rounded-2xl border border-gray-800 backdrop-blur-sm bg-gray-900/50">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-2xl lg:text-3xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent"
           >
-            <span>Request Security Brief</span>
-            <ChevronRight className="w-5 h-5" />
+            Our Security Practices
+          </motion.h3>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {[
+              'Regular third-party security audits and penetration testing',
+              '24/7 security monitoring and incident response',
+              'Employee security training and background checks'
+            ].map((practice, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 + index * 0.1 }}
+                className="flex items-start gap-4 p-4 rounded-xl border border-gray-700 hover:border-purple-500/30 transition-all duration-300 group"
+              >
+                <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5 flex-shrink-0 group-hover:bg-purple-500/30 transition-colors">
+                  <ChevronRight className="w-3 h-3 text-purple-400" />
+                </div>
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors leading-relaxed">
+                  {practice}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* CTA Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-center"
+      >
+        <div className="px-8 py-12 rounded-2xl border border-purple-500/20 backdrop-blur-sm">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-2xl lg:text-3xl font-bold text-white mb-4"
+          >
+            Need detailed security documentation for your compliance team?
+          </motion.h3>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="text-gray-300 max-w-2xl mx-auto mb-8 text-lg"
+          >
+            Request our comprehensive security brief and compliance documentation.
+          </motion.p>
+          <motion.button
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 mx-auto group"
+          >
+            <ShieldCheck className="w-5 h-5" />
+            <span className="text-lg">Request Security Brief</span>
+            <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
           </motion.button>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

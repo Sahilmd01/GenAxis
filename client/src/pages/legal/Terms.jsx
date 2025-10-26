@@ -1,12 +1,13 @@
 import React from 'react';
 import { FileText, Clipboard, Scale, ChevronRight } from 'lucide-react';
+import Navbar from '../../components/Navbar';
 import { motion } from 'framer-motion';
 
 const Terms = () => {
   const sections = [
     {
       title: 'Acceptable Use',
-      icon: <Clipboard className="w-5 h-5 text-emerald-600" />,
+      icon: <Clipboard className="w-5 h-5 text-purple-400" />,
       points: [
         'Proper use of our services',
         'Prohibited activities',
@@ -15,7 +16,7 @@ const Terms = () => {
     },
     {
       title: 'Account Terms',
-      icon: <FileText className="w-5 h-5 text-emerald-600" />,
+      icon: <FileText className="w-5 h-5 text-purple-400" />,
       points: [
         'Registration requirements',
         'Account security',
@@ -24,7 +25,7 @@ const Terms = () => {
     },
     {
       title: 'Legal Terms',
-      icon: <Scale className="w-5 h-5 text-emerald-600" />,
+      icon: <Scale className="w-5 h-5 text-purple-400" />,
       points: [
         'Limitations of liability',
         'Governing law',
@@ -34,86 +35,155 @@ const Terms = () => {
   ];
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-white">
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('/background.png')" }} />
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/30 to-violet-50/30 backdrop-blur-[10px] z-0" />
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 lg:py-40">
-        {/* Header */}
+    <div className="max-w-7xl mx-auto z-20 my-30 px-4">
+      <div className="fixed top-0 left-0 w-full z-50 bg-opacity-70 backdrop-blur-md border-b border-purple-500/10">
+        <Navbar />
+      </div>
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        viewport={{ once: true }}
+        className="text-center mb-16"
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-col items-center mb-16 text-center"
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20"
         >
-          <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/90 backdrop-blur-md border border-emerald-100 shadow-sm">
-            <div className="w-5 h-5 rounded-full bg-gradient-to-r from-emerald-500 to-violet-600 flex items-center justify-center">
-              <FileText className="w-3 h-3 text-white" />
-            </div>
-            <span className="text-sm font-medium tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">
-              LEGAL AGREEMENT
-            </span>
-          </div>
-          <h1 className="text-5xl sm:text-6xl font-bold leading-tight mb-6">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-violet-600">Terms of</span>
-            <span className="text-gray-900"> Service</span>
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl">
-            Last updated: {new Date().toLocaleDateString()}
-          </p>
+          <FileText className="w-4 h-4 text-purple-400" />
+          <span className="text-purple-300 text-sm font-medium">LEGAL AGREEMENT</span>
         </motion.div>
 
-        {/* Content Sections */}
-        <div className="space-y-12 mb-20">
-          {sections.map((section, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + index * 0.1 }}
-              className="bg-white/90 border border-emerald-100 rounded-xl p-8 shadow-sm"
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 rounded-lg bg-gradient-to-r from-emerald-100 to-violet-100 border border-emerald-50">
-                  {section.icon}
-                </div>
-                <h2 className="text-2xl font-semibold text-gray-900">{section.title}</h2>
-              </div>
-              
-              <ul className="space-y-4">
-                {section.points.map((point, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5 flex-shrink-0">
-                      <ChevronRight className="w-4 h-4 text-emerald-600" />
-                    </div>
-                    <p className="text-gray-600">{point}</p>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="text-center"
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="text-white text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
         >
-          <p className="text-gray-600 mb-6">
-            By using our services, you agree to these terms.
-          </p>
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="bg-gradient-to-r from-emerald-600 to-violet-600 text-white px-8 py-4 rounded-xl font-semibold inline-flex items-center gap-3"
+          TERMS OF SERVICE
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          viewport={{ once: true }}
+          className="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed"
+        >
+          Last updated: {new Date().toLocaleDateString()}
+        </motion.p>
+      </motion.div>
+
+      {/* Content Sections */}
+      <motion.div
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.1
+            }
+          }
+        }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="space-y-8 mb-28"
+      >
+        {sections.map((section, index) => (
+          <motion.div
+            key={index}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  duration: 0.5
+                }
+              }
+            }}
+            whileHover={{ y: -5, scale: 1.02 }}
+            className="p-8 rounded-2xl border border-gray-800 backdrop-blur-sm hover:border-purple-500/30 transition-all duration-300 group bg-gray-900/50"
           >
-            <span>Download Full Terms</span>
-            <ChevronRight className="w-5 h-5" />
+            <div className="flex items-center gap-4 mb-6">
+              <div className="p-2 rounded-lg border border-purple-500/30 group-hover:bg-purple-600/20 transition-colors">
+                {section.icon}
+              </div>
+              <h2 className="text-2xl font-semibold text-white group-hover:text-purple-200 transition-colors">
+                {section.title}
+              </h2>
+            </div>
+
+            <ul className="space-y-4">
+              {section.points.map((point, i) => (
+                <motion.li
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-800/50 transition-all duration-300 group"
+                >
+                  <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5 flex-shrink-0 group-hover:bg-purple-500/30 transition-colors">
+                    <ChevronRight className="w-3 h-3 text-purple-400" />
+                  </div>
+                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors text-lg leading-relaxed">
+                    {point}
+                  </p>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      {/* CTA Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-center"
+      >
+        <div className="px-8 py-12 rounded-2xl border border-purple-500/20 backdrop-blur-sm">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-2xl lg:text-3xl font-bold text-white mb-4"
+          >
+            By using our services, you agree to these terms.
+          </motion.h3>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+            className="text-gray-300 max-w-2xl mx-auto mb-8 text-lg"
+          >
+            Download the complete terms of service document for detailed information.
+          </motion.p>
+          <motion.button
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 mx-auto group"
+          >
+            <FileText className="w-5 h-5" />
+            <span className="text-lg">Download Full Terms</span>
+            <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
           </motion.button>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 };
