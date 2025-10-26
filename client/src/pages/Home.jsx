@@ -20,7 +20,6 @@ const Home = () => {
       <Faqs />
       <Plans />
       <Social />
-
       <Footer />
     </>
   )
