@@ -1,30 +1,54 @@
 import { useState } from 'react';
-import { Eraser, FileText, Sparkles } from 'lucide-react';
+import { FileText, Sparkles, Crown, Eye } from 'lucide-react';
 import axios from 'axios';
-import { useAuth } from '@clerk/clerk-react';
+import { useAuth, Protect } from '@clerk/clerk-react';
 import toast from 'react-hot-toast';
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 import Markdown from 'react-markdown';
 
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+
 const ReviewResume = () => {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(null);
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resumePreview, setResumePreview] = useState('');
   const { getToken } = useAuth();
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setInput(file);
+      // Create preview URL for PDF
+      if (file.type === 'application/pdf') {
+        const previewUrl = URL.createObjectURL(file);
+        setResumePreview(previewUrl);
+      }
+      setContent('');
+    }
+  };
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    if (!input) {
+      toast.error('Please select a resume file first');
+      return;
+    }
+
     try {
       setLoading(true);
       const formData = new FormData();
       formData.append('resume', input);
+
       const { data } = await axios.post('/api/ai/resume-review', formData, {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
+          'Content-Type': 'multipart/form-data',
         },
       });
 
       if (data.success) {
         setContent(data.content);
+        toast.success('Resume analyzed successfully!');
       } else {
         toast.error(data.message);
       }
@@ -33,62 +57,190 @@ const ReviewResume = () => {
     }
     setLoading(false);
   };
+
   return (
-    <div className="h-full overflow-y-scroll p-6 flex flex-col lg:flex-row items-start gap-4 text-slate-700">
-      <form
-        onSubmit={onSubmitHandler}
-        className="w-full lg:w-1/2 p-4 bg-white rounded-lg border border-gray-200"
-      >
-        <div className="flex items-center gap-3">
-          <Sparkles className="w-6 text-[#00da83]" />
-          <h1 className="text-xl font-semibold">Resume Review</h1>
+    <div className="h-full overflow-y-scroll p-6 bg-gradient-to-br from-gray-900 to-black">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-yellow-500/20 bg-yellow-500/10 text-xs mb-3">
+            <Crown className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+            <span className="text-yellow-400 font-medium">PREMIUM RESUME REVIEW</span>
+          </div>
+          <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            AI Resume Review
+          </h1>
+          <p className="text-sm text-gray-400">
+            Get professional resume analysis and feedback
+          </p>
         </div>
 
-        <p className="mt-6 text-sm font-medium">Upload Resume</p>
-        <input
-          onChange={(e) => setInput(e.target.files[0])}
-          accept="application/pdf"
-          type="file"
-          className="w-full p-2 px-3 mt-2 outline-none text-sm rounded-md border border-gray-300 text-gray-600"
-          required
-        />
-        <p className="text-xs text-gray-500 font-light mt-1">
-          Supports pdf resume only
-        </p>
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full flex justify-center items-center gap-2 bg-gradient-to-r from-[#00da83] to-[#009bb3] text-white px-4 py-2 mt-6 text-sm rounded-lg cursor-pointer"
-        >
-          {loading ? (
-            <span className="w-4 h-4 my-1 rounded-full border-2 border-t-transparent animate-spin"></span>
-          ) : (
-            <FileText className="w-5" />
-          )}
-          Review Resume
-        </button>
-      </form>
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+          {/* Left Panel */}
+          <div className="space-y-4">
+            {/* Upload Resume Card */}
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-yellow-500/20 p-4">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-black" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-white">Upload Resume</h2>
+                  <p className="text-xs text-gray-400">Upload your PDF resume</p>
+                </div>
+              </div>
+              
+              <input
+                onChange={handleFileChange}
+                accept="application/pdf"
+                type="file"
+                className="w-full p-3 text-sm bg-gray-700/50 border border-gray-600 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-black hover:file:bg-yellow-600 transition-all mb-3"
+                required
+              />
+              
+              {resumePreview && (
+                <div className="mt-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Eye className="w-4 h-4 text-yellow-400" />
+                    <h3 className="text-sm font-medium text-white">Resume Preview</h3>
+                  </div>
+                  <div className="bg-gray-700/30 rounded-lg p-3 border border-gray-600/30">
+                    <div className="flex items-center justify-center gap-2 p-4">
+                      <FileText className="w-8 h-8 text-yellow-400" />
+                      <div className="text-center">
+                        <p className="text-sm text-white font-medium">{input?.name}</p>
+                        <p className="text-xs text-gray-400">
+                          {(input?.size / 1024 / 1024).toFixed(2)} MB • PDF Document
+                        </p>
+                      </div>
+                    </div>
+                    <a
+                      href={resumePreview}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 py-2 rounded-lg hover:bg-yellow-500/20 transition-all text-xs mt-2"
+                    >
+                      <Eye className="w-3 h-3" />
+                      View Original PDF
+                    </a>
+                  </div>
+                </div>
+              )}
+              
+              <p className="text-xs text-gray-400 mt-3">
+                Supports PDF format only
+              </p>
+            </div>
 
-      <div className="w-full lg:w-1/2 p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-96 max-h-[600px]">
-        <div className="flex items-center gap-3">
-          <FileText className="w-5 h-5 text-[#00da83]" />
-          <h1 className="text-xl font-semibold">Analysis Results</h1>
+            {/* Analyze Button */}
+            <Protect
+              plan="premium"
+              fallback={
+                <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-yellow-500/20 p-4">
+                  <div className="flex items-center gap-3">
+                    <Crown className="w-5 h-5 text-yellow-400" />
+                    <div>
+                      <h3 className="text-sm font-semibold text-white">Premium Feature</h3>
+                      <p className="text-xs text-gray-400">Upgrade to unlock resume review</p>
+                    </div>
+                  </div>
+                </div>
+              }
+            >
+              <button
+                onClick={onSubmitHandler}
+                disabled={loading || !input}
+                className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-black font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 rounded-full border-2 border-t-transparent border-black animate-spin"></div>
+                    Analyzing Resume...
+                  </>
+                ) : (
+                  <>
+                    <FileText className="w-4 h-4" />
+                    Analyze Resume
+                  </>
+                )}
+              </button>
+            </Protect>
+          </div>
+
+          {/* Right Panel */}
+          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-yellow-500/20 p-4">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-black" />
+                </div>
+                <div>
+                  <h2 className="text-sm font-semibold text-white">Analysis Results</h2>
+                  <p className="text-xs text-gray-400">Detailed resume feedback</p>
+                </div>
+              </div>
+            </div>
+
+            {loading ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center mb-4">
+                  <div className="w-6 h-6 rounded-full border-2 border-t-transparent border-black animate-spin"></div>
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">Analyzing Your Resume</h3>
+                <p className="text-sm text-gray-400 mb-4">We are reviewing your resume, please wait...</p>
+                <div className="w-48 bg-gray-700 rounded-full h-1.5 mb-2">
+                  <div className="bg-gradient-to-r from-yellow-400 to-amber-500 h-1.5 rounded-full animate-pulse w-2/3"></div>
+                </div>
+                <div className="flex gap-4 text-xs text-gray-400">
+                  <div className="text-center">
+                    <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce mx-auto mb-1"></div>
+                    <span>Reading</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-bounce mx-auto mb-1 delay-100"></div>
+                    <span>Analyzing</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-1.5 h-1.5 bg-orange-400 rounded-full animate-bounce mx-auto mb-1 delay-200"></div>
+                    <span>Generating</span>
+                  </div>
+                </div>
+              </div>
+            ) : !content ? (
+              <div className="flex flex-col items-center justify-center py-12">
+                <div className="w-16 h-16 rounded-lg border border-gray-600 flex items-center justify-center mb-4">
+                  <FileText className="w-8 h-8 text-gray-500" />
+                </div>
+                <h3 className="text-sm font-semibold text-white mb-2">No Analysis Yet</h3>
+                <p className="text-xs text-gray-400 text-center max-w-xs">
+                  Upload your resume and click "Analyze Resume" to get detailed feedback
+                </p>
+              </div>
+            ) : (
+              <div className="max-h-[500px] overflow-y-auto">
+                <div className="bg-gray-700/30 rounded-lg p-4 border border-gray-600/30">
+                  <div className="text-white">
+                    <Markdown
+                      components={{
+                        h1: ({node, ...props}) => <h1 className="text-white text-lg font-bold mb-3" {...props} />,
+                        h2: ({node, ...props}) => <h2 className="text-white text-base font-bold mb-2" {...props} />,
+                        h3: ({node, ...props}) => <h3 className="text-white text-sm font-bold mb-2" {...props} />,
+                        p: ({node, ...props}) => <p className="text-white mb-3 leading-relaxed text-sm" {...props} />,
+                        li: ({node, ...props}) => <li className="text-white mb-2 text-sm" {...props} />,
+                        strong: ({node, ...props}) => <strong className="text-yellow-300 font-bold" {...props} />,
+                        em: ({node, ...props}) => <em className="text-amber-300 italic" {...props} />,
+                        ul: ({node, ...props}) => <ul className="list-disc list-inside space-y-1" {...props} />,
+                        ol: ({node, ...props}) => <ol className="list-decimal list-inside space-y-1" {...props} />,
+                      }}
+                    >
+                      {content}
+                    </Markdown>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-
-        {!content ? (
-          <div className="flex-1 flex justify-center items-center">
-            <div className="text-sm flex flex-col items-center gap-5 text-gray-400">
-              <FileText className="w-9 h-9" />
-              <p>Upload a resume and click "Review Resume" to get started</p>
-            </div>
-          </div>
-        ) : (
-          <div className="mt-3 h-full overflow-y-scroll text-sm text-slate-600">
-            <div className="reset-tw">
-              <Markdown>{content}</Markdown>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
