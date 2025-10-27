@@ -26,6 +26,9 @@ import Pricing from './pages/product/Pricing';
 import Api from './pages/resources/Api';
 import Documentation from './pages/resources/Documentation';
 
+//feedback page
+import Feedback from './pages/Feedback';
+
 import { Toaster } from 'react-hot-toast';
 
 const App = () => {
@@ -65,6 +68,9 @@ const App = () => {
         {/* Resources Pages */}
         <Route path="/resources/api" element={<Api />} />
         <Route path="/resources/documentation" element={<Documentation />} />
+
+        {/* Feedback Pages */}
+        <Route path="/feedback" element={<Feedback />} />
       </Routes>
     </div>
   );
