@@ -4,8 +4,8 @@
 ### _Next-Gen AI Web Platform Built with PERN Stack_  
 **Design Inspired by [Huly.io](https://huly.io)**
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/GenAxis?style=for-the-badge&color=yellow)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/GenAxis?style=for-the-badge&color=blue)
+![GitHub stars](https://img.shields.io/github/stars/sahilmd01/GenAxis?style=for-the-badge&color=yellow)
+![GitHub forks](https://img.shields.io/github/forks/sahilmd01/GenAxis?style=for-the-badge&color=blue)
 ![License](https://img.shields.io/badge/License-GA--OSS--2025-orange?style=for-the-badge)
 ![Contributions welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen?style=for-the-badge)
 
