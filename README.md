@@ -1,6 +1,8 @@
 <div align="center">
 
-# 🌐 **GenAxis**
+<img src="client/public/logo.png" alt="GenAxis Logo" width="120"/>
+
+# **GenAxis**
 ### _Next-Gen AI Web Platform Built with PERN Stack_  
 **Design Inspired by [Huly.io](https://huly.io)**
 
