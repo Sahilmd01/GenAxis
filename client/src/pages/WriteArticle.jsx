@@ -63,7 +63,7 @@ const WriteArticle = () => {
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-yellow-500/20 bg-yellow-500/10 text-xs mb-3">
             <Crown className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-            <span className="text-yellow-400 font-medium">PREMIUM WRITER</span>
+            <span className="text-yellow-400 font-medium">FREE</span>
           </div>
           <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
             AI Article Writer
