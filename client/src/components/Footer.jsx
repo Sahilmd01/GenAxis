@@ -7,45 +7,45 @@ const Footer = () => {
     {
       name: 'github',
       icon: <Github className="w-5 h-5" />,
-      url: 'https://github.com/yourusername',
+      url: 'https://github.com/sahilmd01',
       label: 'Star us on GitHub',
       color: 'hover:text-gray-400'
     },
     {
       name: 'instagram',
       icon: <Instagram className="w-5 h-5" />,
-      url: 'https://instagram.com/yourusername',
+      url: 'https://instagram.com/avoliq.dev',
       label: 'Follow on Instagram',
       color: 'hover:text-pink-400'
     },
     {
       name: 'youtube',
       icon: <Youtube className="w-5 h-5" />,
-      url: 'https://youtube.com/yourchannel',
+      url: 'https://youtube.com/@codewithkinu',
       label: 'Subscribe on YouTube',
       color: 'hover:text-red-400'
     },
     {
       name: 'linkedin',
       icon: <Linkedin className="w-5 h-5" />,
-      url: 'https://linkedin.com/in/yourprofile',
+      url: 'https://linkedin.com/in/codewithkinu',
       label: 'Connect on LinkedIn',
       color: 'hover:text-blue-400'
     }
   ];
 
   const quickLinks = [
-    { name: 'AI Tools', path: '/tools' },
-    { name: 'Use Cases', path: '/usecases' },
-    { name: 'Pricing', path: '/pricing' },
-    { name: 'Documentation', path: '/docs' }
+    { name: 'AI Tools', path: '#' },
+    { name: 'Use Cases', path: '#' },
+    { name: 'Pricing', path: '/product/pricing' },
+    { name: 'Documentation', path: '/resources/documentation' }
   ];
 
   const supportLinks = [
     { name: 'Help Center', path: '/help' },
     { name: 'Contact Us', path: '/contact' },
-    { name: 'Status', path: '/status' },
-    { name: 'API Reference', path: '/api' }
+    { name: 'Status', path: '#' },
+    { name: 'API Reference', path: '/resources/api' }
   ];
 
   return (
@@ -124,7 +124,7 @@ const Footer = () => {
                     <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-300">
                       GenAxis
                     </span>
-                    <p className="text-gray-400 text-sm">Premium AI Solutions</p>
+                    <p className="text-gray-400 text-sm"> AI Tools  </p>
                   </div>
                 </div>
                 <p className="text-gray-300 text-sm mb-6">
@@ -257,7 +257,7 @@ const Footer = () => {
               </p>
               <div className="flex gap-6 text-sm">
                 <motion.a
-                  href="/privacy"
+                  href="/legal/privacy"
                   className="text-white/80 hover:text-white transition-colors"
                   whileHover={{ y: -2 }}
                 >
@@ -271,7 +271,7 @@ const Footer = () => {
                   Terms of Service
                 </motion.a>
                 <motion.a
-                  href="/cookies"
+                  href="/legal/terms"
                   className="text-white/80 hover:text-white transition-colors"
                   whileHover={{ y: -2 }}
                 >

@@ -13,7 +13,7 @@ const Social = () => {
       title: 'GitHub',
       description: 'Star our repositories and contribute to open source projects',
       instruction: 'Star us on GitHub',
-      url: 'https://github.com/yourusername',
+      url: 'https://github.com/sahilmd01',
       color: 'from-gray-900 to-black'
     },
     {
@@ -22,7 +22,7 @@ const Social = () => {
       title: 'Instagram',
       description: 'Follow us for daily updates and behind-the-scenes content',
       instruction: 'Follow on Instagram',
-      url: 'https://instagram.com/yourusername',
+      url: 'https://instagram.com/avoliq.dev',
       color: 'from-pink-600 to-purple-600'
     },
     {
@@ -31,7 +31,7 @@ const Social = () => {
       title: 'YouTube',
       description: 'Subscribe to our channel for tutorials and updates',
       instruction: 'Subscribe on YouTube',
-      url: 'https://youtube.com/yourchannel',
+      url: 'https://youtube.com/@codewithkinu',
       color: 'from-red-600 to-red-800'
     },
     {
@@ -40,7 +40,7 @@ const Social = () => {
       title: 'LinkedIn',
       description: 'Connect with us for professional networking and opportunities',
       instruction: 'Connect on LinkedIn',
-      url: 'https://linkedin.com/in/yourprofile',
+      url: 'https://linkedin.com/in/codewithkinu',
       color: 'from-blue-700 to-blue-900'
     }
   ];
