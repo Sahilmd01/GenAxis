@@ -1,0 +1,34 @@
+GenAxis Open Source Non-Commercial License (GA-OSNCL-2025)
+Copyright (c) 2025 Sahil
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, merge, publish, and distribute copies of the Software,
+subject to the following conditions:
+
+1. The Software may be used, copied, modified, and distributed
+   for personal, educational, research, and non-commercial purposes only.
+
+2. The Software, in whole or in part, may not be sold, licensed,
+   or otherwise used for any commercial purpose or for monetary gain.
+
+3. The above copyright notice and this permission notice shall be included
+   in all copies or substantial portions of the Software.
+
+4. The Software is provided “as is”, without warranty of any kind,
+   express or implied, including but not limited to the warranties
+   of merchantability, fitness for a particular purpose and noninfringement.
+   In no event shall the authors or copyright holders be liable for any claim,
+   damages, or other liability, whether in an action of contract, tort,
+   or otherwise, arising from, out of, or in connection with the Software
+   or the use or other dealings in the Software.
+
+---
+
+Integration Notice:
+This project integrates Google's Gemini API for AI-powered functionality.
+Use of the Gemini API and any AI-generated content must comply with
+[Google’s AI Terms of Service](https://ai.google.dev/terms).
+GenAxis does not own or redistribute the Gemini model or API itself.
+
+License No: GA-OSNCL-2025
