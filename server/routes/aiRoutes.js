@@ -7,7 +7,7 @@ import { requireAuth } from '@clerk/express';
 
 const aiRouter=express.Router();
 
-console.log("h1")
+console.log("🧠 AI Routes initialized successfully.");
 aiRouter.post('/generate-article',auth, generateArticle);
 aiRouter.post('/generate-blog-title',auth, generateBlogTitle);
 aiRouter.post('/generate-image',auth, generateImage);
