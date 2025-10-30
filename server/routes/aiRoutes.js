@@ -1,29 +1,23 @@
-// routes/aiRoutes.js
-import express from 'express';
-import aiController from '../controllers/aiController.js';
-import { auth } from '../middleware/auth.js';
-import { imageUpload, resumeUpload } from '../configs/multer.js';
-import { validate } from '../middleware/validation.js';
+import express from 'express'
+import { generateArticle, generateBlogTitle, generateImage, removeImageBackground, removeImageObject, reviewResume } from '../controllers/aiController.js';
 
-const aiRouter = express.Router();
+import {auth} from "../middleware/auth.js"
+import { upload } from '../configs/multer.js';
+import { requireAuth } from '@clerk/express';
 
-// Validation schemas
-const generateSchema = {
-  prompt: { type: 'string', min: 1, max: 1000 },
-  length: { type: 'number', min: 100, max: 2000, optional: true }
-};
+const aiRouter=express.Router();
 
-const imageSchema = {
-  prompt: { type: 'string', min: 1, max: 500 },
-  publish: { type: 'boolean', optional: true }
-};
+console.log("h1")
+aiRouter.post('/generate-article',auth, generateArticle);
+aiRouter.post('/generate-blog-title',auth, generateBlogTitle);
+aiRouter.post('/generate-image',auth, generateImage);
 
-// Routes with validation
-aiRouter.post('/generate-article', auth, validate(generateSchema), aiController.generateArticle);
-aiRouter.post('/generate-blog-title', auth, validate({ prompt: { type: 'string', min: 1, max: 500 } }), aiController.generateBlogTitle);
-aiRouter.post('/generate-image', auth, validate(imageSchema), aiController.generateImage);
-aiRouter.post('/remove-image-background', auth, imageUpload, aiController.removeImageBackground);
-aiRouter.post('/remove-image-object', auth, imageUpload, aiController.removeImageObject);
-aiRouter.post('/resume-review', auth, resumeUpload, aiController.reviewResume);
+aiRouter.post('/remove-image-background',upload.single('image'),auth, removeImageBackground);
+
+aiRouter.post('/remove-image-object',upload.single('image'),auth, removeImageObject);
+
+aiRouter.post('/resume-review',upload.single('resume'),auth, reviewResume);
+
+
 
 export default aiRouter;

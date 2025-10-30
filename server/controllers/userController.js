@@ -1,115 +1,59 @@
 import sql from '../configs/db.js';
 
-class UserController {
-  getUserCreations = async (req, res) => {
-    try {
-      const { userId } = req.auth;
+export const getUserCreations = async (req, res) => {
+  try {
+    const { userId } = req.auth();
 
-      const creations = await sql`
-        SELECT * FROM creations 
-        WHERE user_id = ${userId} 
-        ORDER BY created_at DESC
-      `;
+    const creations =
+      await sql`SELECT * FROM creations WHERE user_id=${userId} ORDER BY created_at DESC`;
 
-      res.json({ success: true, creations });
-    } catch (error) {
-      console.error('Get user creations error:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Failed to fetch creations' 
-      });
+    res.json({ success: true, creations });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+export const getPublishedCreations = async (req, res) => {
+  try {
+    const creations = await sql`
+      SELECT * FROM creations WHERE publish=true ORDER BY created_at DESC`;
+
+    res.json({ success: true, creations });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+export const toggleLikeCreation = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const { id } = req.body;
+
+    const [creation] = await sql`SELECT * FROM creations WHERE id=${id}`;
+
+    if (!creation) {
+      return res.json({ success: false, message: 'No such creation exists' });
     }
-  };
 
-  getPublishedCreations = async (req, res) => {
-    try {
-      const { page = 1, limit = 20 } = req.query;
-      const offset = (page - 1) * limit;
+    const currentLikes = creation.likes;
+    const userIDStr = userId.toString();
+    let updatedLikes;
+    let message;
 
-      const creations = await sql`
-        SELECT * FROM creations 
-        WHERE publish = true 
-        ORDER BY created_at DESC
-        LIMIT ${limit} OFFSET ${offset}
-      `;
-
-      const [{ count }] = await sql`
-        SELECT COUNT(*) FROM creations WHERE publish = true
-      `;
-
-      res.json({ 
-        success: true, 
-        creations,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total: parseInt(count),
-          pages: Math.ceil(count / limit)
-        }
-      });
-    } catch (error) {
-      console.error('Get published creations error:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Failed to fetch published creations' 
-      });
+    if (currentLikes.includes(userIDStr)) {
+      updatedLikes = currentLikes.filter((user) => user !== userIDStr);
+      message = 'Creation Unliked';
+      console.log(message);
+    } else {
+      updatedLikes = [...currentLikes, userIDStr];
+      message = 'Creation Liked';
+      console.log(message);
     }
-  };
 
-  toggleLikeCreation = async (req, res) => {
-    try {
-      const { userId } = req.auth;
-      const { id } = req.body;
+    const formatedArray = `{${updatedLikes.join(',')}}`;
+    await sql`UPDATE creations SET likes=${formatedArray}::text[] WHERE id=${id}`;
 
-      if (!id) {
-        return res.status(400).json({
-          success: false,
-          message: 'Creation ID is required'
-        });
-      }
-
-      const [creation] = await sql`SELECT * FROM creations WHERE id = ${id}`;
-
-      if (!creation) {
-        return res.status(404).json({
-          success: false,
-          message: 'Creation not found'
-        });
-      }
-
-      const userIDStr = userId.toString();
-      const currentLikes = creation.likes || [];
-      
-      let updatedLikes;
-      let message;
-
-      if (currentLikes.includes(userIDStr)) {
-        updatedLikes = currentLikes.filter(user => user !== userIDStr);
-        message = 'Creation unliked';
-      } else {
-        updatedLikes = [...currentLikes, userIDStr];
-        message = 'Creation liked';
-      }
-
-      await sql`
-        UPDATE creations 
-        SET likes = ${updatedLikes} 
-        WHERE id = ${id}
-      `;
-
-      res.json({ 
-        success: true, 
-        message,
-        likes: updatedLikes.length
-      });
-    } catch (error) {
-      console.error('Toggle like error:', error);
-      res.status(500).json({ 
-        success: false, 
-        message: 'Failed to toggle like' 
-      });
-    }
-  };
-}
-
-export default new UserController();
+    console.log(message);
+    res.json({ success: true, message });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
