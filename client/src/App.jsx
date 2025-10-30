@@ -1,4 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { Analytics } from '@vercel/analytics/react';
+
+// Pages
 import Home from './pages/Home';
 import Layout from './pages/Layout';
 import WriteArticle from './pages/WriteArticle';
@@ -12,24 +16,22 @@ import Community from './pages/Community';
 import About from './pages/About';
 import Contact from './pages/Contact';
 
-// Correct spelling: Terms
+// Legal
 import Privacy from './pages/legal/Privacy';
 import Security from './pages/legal/Security';
 import Terms from './pages/legal/Terms';
 
-// Product pages
+// Product
 import Demo from './pages/product/Demo';
 import Feature from './pages/product/Feature';
 import Pricing from './pages/product/Pricing';
 
-// Resources pages
+// Resources
 import Api from './pages/resources/Api';
 import Documentation from './pages/resources/Documentation';
 
-//feedback page
+// Feedback
 import Feedback from './pages/Feedback';
-
-import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   return (
@@ -69,9 +71,12 @@ const App = () => {
         <Route path="/resources/api" element={<Api />} />
         <Route path="/resources/documentation" element={<Documentation />} />
 
-        {/* Feedback Pages */}
+        {/* Feedback Page */}
         <Route path="/feedback" element={<Feedback />} />
       </Routes>
+
+      {/* Add Vercel Analytics*/}
+      <Analytics />
     </div>
   );
 };
