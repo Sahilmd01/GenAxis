@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Analytics } from '@vercel/analytics/react';
+import HelpButton from './components/HelpButton';
 
 // Pages
 import Home from './pages/Home';
@@ -77,6 +78,7 @@ const App = () => {
 
       {/* Add Vercel Analytics*/}
       <Analytics />
+      <HelpButton />
     </div>
   );
 };
