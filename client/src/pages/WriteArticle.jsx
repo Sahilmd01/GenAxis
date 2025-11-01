@@ -137,39 +137,24 @@ const WriteArticle = () => {
               </div>
             </div>
 
-            {/* Generate Button */}
-            <Protect
-              plan="premium"
-              fallback={
-                <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-yellow-500/20 p-4">
-                  <div className="flex items-center gap-3">
-                    <Crown className="w-5 h-5 text-yellow-400" />
-                    <div>
-                      <h3 className="text-sm font-semibold text-white">Premium Feature</h3>
-                      <p className="text-xs text-gray-400">Upgrade to unlock</p>
-                    </div>
-                  </div>
-                </div>
-              }
+            {/* Generate Button - Now visible to all users */}
+            <button
+              onClick={onSubmitHandler}
+              disabled={loading || !input.trim()}
+              className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-black font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
             >
-              <button
-                onClick={onSubmitHandler}
-                disabled={loading || !input.trim()}
-                className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-black font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
-              >
-                {loading ? (
-                  <>
-                    <Loader className="w-4 h-4 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Zap className="w-4 h-4" />
-                    Generate Article
-                  </>
-                )}
-              </button>
-            </Protect>
+              {loading ? (
+                <>
+                  <Loader className="w-4 h-4 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Zap className="w-4 h-4" />
+                  Generate Article
+                </>
+              )}
+            </button>
           </div>
 
           {/* Right Panel */}
@@ -238,11 +223,9 @@ const WriteArticle = () => {
             ) : (
               <div className="max-h-[500px] overflow-y-auto">
                 <div className="bg-gray-700/30 rounded-lg p-4 border border-gray-600/30">
-                  {/* Remove prose classes and use direct styling */}
                   <div className="text-white">
                     <Markdown
                       components={{
-                        // Style all markdown elements with white text
                         h1: ({node, ...props}) => <h1 className="text-white text-xl font-bold mb-4" {...props} />,
                         h2: ({node, ...props}) => <h2 className="text-white text-lg font-bold mb-3" {...props} />,
                         h3: ({node, ...props}) => <h3 className="text-white text-base font-bold mb-2" {...props} />,

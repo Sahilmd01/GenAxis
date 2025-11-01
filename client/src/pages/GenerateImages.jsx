@@ -27,6 +27,12 @@ const GenerateImages = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    
+    if (!input.trim()) {
+      toast.error('Please enter an image description');
+      return;
+    }
+
     try {
       setLoading(true);
       const prompt = `Generate an image of ${input} in the style ${selectedStyle}`;
@@ -37,15 +43,24 @@ const GenerateImages = () => {
           headers: { Authorization: `Bearer ${await getToken()}` },
         }
       );
+      
       if (data.success) {
         setContent(data.content);
         setDownloaded(false);
+        toast.success('Image generated successfully!');
       } else {
-        alert('data not recieved');
-        toast.error(data.message);
+        // Remove the alert and use toast instead
+        toast.error(data.message || 'Failed to generate image');
       }
     } catch (error) {
-      toast.error(error.message);
+      console.error('Image generation error:', error);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else if (error.message) {
+        toast.error(error.message);
+      } else {
+        toast.error('Failed to generate image. Please try again.');
+      }
     }
     setLoading(false);
   };
@@ -161,40 +176,25 @@ const GenerateImages = () => {
               </div>
             </div>
 
-            {/* Generate Button */}
-            <Protect
-              plan="premium"
-              fallback={
-                <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-yellow-500/20 p-4">
-                  <div className="flex items-center gap-3">
-                    <Crown className="w-5 h-5 text-yellow-400" />
-                    <div>
-                      <h3 className="text-sm font-semibold text-white">Premium Feature</h3>
-                      <p className="text-xs text-gray-400">Upgrade to unlock</p>
-                    </div>
-                  </div>
-                </div>
-              }
+            {/* Generate Button - Now visible for all users */}
+            <button
+              type="submit"
+              onClick={onSubmitHandler}
+              disabled={loading || !input.trim()}
+              className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-black font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
             >
-              <button
-                type="submit"
-                onClick={onSubmitHandler}
-                disabled={loading}
-                className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-black font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
-              >
-                {loading ? (
-                  <>
-                    <div className="w-4 h-4 rounded-full border-2 border-t-transparent border-black animate-spin"></div>
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Image className="w-4 h-4" />
-                    Generate Image
-                  </>
-                )}
-              </button>
-            </Protect>
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 rounded-full border-2 border-t-transparent border-black animate-spin"></div>
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Image className="w-4 h-4" />
+                  Generate Image
+                </>
+              )}
+            </button>
           </div>
 
           {/* Right Panel */}

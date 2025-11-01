@@ -145,40 +145,25 @@ const RemoveBackground = () => {
               </p>
             </div>
 
-            {/* Remove Background Button */}
-            <Protect
-              plan="premium"
-              fallback={
-                <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl border border-yellow-500/20 p-4">
-                  <div className="flex items-center gap-3">
-                    <Crown className="w-5 h-5 text-yellow-400" />
-                    <div>
-                      <h3 className="text-sm font-semibold text-white">Premium Feature</h3>
-                      <p className="text-xs text-gray-400">Upgrade to unlock</p>
-                    </div>
-                  </div>
-                </div>
-              }
+            {/* Remove Background Button - Now visible for all users */}
+            <button
+              type="submit"
+              onClick={onSubmitHandler}
+              disabled={loading || !input}
+              className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-black font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
             >
-              <button
-                type="submit"
-                onClick={onSubmitHandler}
-                disabled={loading || !input}
-                className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-black font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
-              >
-                {loading ? (
-                  <>
-                    <div className="w-4 h-4 rounded-full border-2 border-t-transparent border-black animate-spin"></div>
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    <Eraser className="w-4 h-4" />
-                    Remove Background
-                  </>
-                )}
-              </button>
-            </Protect>
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 rounded-full border-2 border-t-transparent border-black animate-spin"></div>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <Eraser className="w-4 h-4" />
+                  Remove Background
+                </>
+              )}
+            </button>
           </div>
 
           {/* Right Panel */}
